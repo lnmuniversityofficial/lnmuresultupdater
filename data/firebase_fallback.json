@@ -1,0 +1,2779 @@
+{
+  "updateRequests": {
+    "REQ-20261005-09-41-04-0201": {
+      "requestId": "REQ-20261005-09-41-04-0201",
+      "rollno": "241034040201",
+      "studentName": "Test Student",
+      "student": {
+        "name": "Test Student",
+        "rollno": "241034040201",
+        "sno": "12345"
+      },
+      "chatId": "987654321",
+      "changes": [
+        {
+          "column": "a1te_1",
+          "value": "55"
+        },
+        {
+          "column": "a1gr_1",
+          "value": "B+"
+        }
+      ],
+      "userMessage": "Please approve my marks update",
+      "paymentScreenshotUrl": "/uploads/REQ-20261005-09-41-04-0201.png",
+      "status": "REJECTED",
+      "submittedAt": "2026-10-05 09:41:07",
+      "ipAddress": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "rejectionReason": "Test cleanup"
+    },
+    "REQ-20261005-09-44-18-0201": {
+      "requestId": "REQ-20261005-09-44-18-0201",
+      "rollno": "241034040201",
+      "studentName": "Test Student",
+      "student": {
+        "name": "Test Student",
+        "rollno": "241034040201",
+        "sno": "12345"
+      },
+      "chatId": "987654321",
+      "changes": [
+        {
+          "column": "a1te_1",
+          "value": "55"
+        },
+        {
+          "column": "a1gr_1",
+          "value": "B+"
+        }
+      ],
+      "userMessage": "Please approve my marks update",
+      "paymentScreenshotUrl": "/uploads/REQ-20261005-09-44-18-0201.png",
+      "status": "REJECTED",
+      "submittedAt": "2026-10-05 09:44:21",
+      "ipAddress": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "rejectionReason": "Test cleanup"
+    },
+    "REQ-20261005-09-45-47-0201": {
+      "requestId": "REQ-20261005-09-45-47-0201",
+      "rollno": "241034040201",
+      "studentName": "Test Student",
+      "student": {
+        "name": "Test Student",
+        "rollno": "241034040201",
+        "sno": "12345"
+      },
+      "chatId": "987654321",
+      "changes": [
+        {
+          "column": "a1te_1",
+          "value": "55"
+        },
+        {
+          "column": "a1gr_1",
+          "value": "B+"
+        }
+      ],
+      "userMessage": "Please approve my marks update",
+      "paymentScreenshotUrl": "/uploads/REQ-20261005-09-45-47-0201.png",
+      "status": "REJECTED",
+      "submittedAt": "2026-10-05 09:45:50",
+      "ipAddress": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "rejectionReason": "Test cleanup"
+    },
+    "REQ-20261005-09-48-37-0201": {
+      "requestId": "REQ-20261005-09-48-37-0201",
+      "rollno": "241034040201",
+      "studentName": "Test Student",
+      "student": {
+        "name": "Test Student",
+        "rollno": "241034040201",
+        "sno": "12345"
+      },
+      "chatId": "987654321",
+      "changes": [
+        {
+          "column": "a1te_1",
+          "value": "55"
+        },
+        {
+          "column": "a1gr_1",
+          "value": "B+"
+        }
+      ],
+      "userMessage": "Please approve my marks update",
+      "paymentScreenshotUrl": "/uploads/REQ-20261005-09-48-37-0201.png",
+      "status": "REJECTED",
+      "submittedAt": "2026-10-05 09:48:41",
+      "ipAddress": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "rejectionReason": "Test cleanup"
+    },
+    "REQ-20261005-09-49-51-0201": {
+      "requestId": "REQ-20261005-09-49-51-0201",
+      "rollno": "241034040201",
+      "studentName": "Test Student",
+      "student": {
+        "name": "Test Student",
+        "rollno": "241034040201",
+        "sno": "12345"
+      },
+      "chatId": "987654321",
+      "changes": [
+        {
+          "column": "a1te_1",
+          "value": "55"
+        },
+        {
+          "column": "a1gr_1",
+          "value": "B+"
+        }
+      ],
+      "userMessage": "Please approve my marks update",
+      "paymentScreenshotUrl": "/uploads/REQ-20261005-09-49-51-0201.png",
+      "status": "REJECTED",
+      "submittedAt": "2026-10-05 09:49:56",
+      "ipAddress": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "updatedAt": "2026-10-05 09:50:05",
+      "approvedBy": "12345678",
+      "reviewedBy": "12345678",
+      "comment": "Approved & executed by @AdminUser"
+    },
+    "REQ-20261005-10-40-42-0201": {
+      "requestId": "REQ-20261005-10-40-42-0201",
+      "rollno": "241034040201",
+      "studentName": "Test Student",
+      "student": {
+        "name": "Test Student",
+        "rollno": "241034040201",
+        "sno": "12345"
+      },
+      "chatId": "987654321",
+      "changes": [
+        {
+          "column": "a1te_1",
+          "value": "55"
+        },
+        {
+          "column": "a1gr_1",
+          "value": "B+"
+        }
+      ],
+      "userMessage": "Please approve my marks update",
+      "paymentScreenshotUrl": "/uploads/REQ-20261005-10-40-42-0201.png",
+      "status": "REJECTED",
+      "submittedAt": "2026-10-05 10:40:46",
+      "ipAddress": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "updatedAt": "2026-10-05 10:40:53",
+      "approvedBy": "12345678",
+      "reviewedBy": "12345678",
+      "comment": "Approved & executed by @AdminUser"
+    },
+    "REQ-20261005-10-42-51-0201": {
+      "requestId": "REQ-20261005-10-42-51-0201",
+      "rollno": "241034040201",
+      "studentName": "Test Student",
+      "student": {
+        "name": "Test Student",
+        "rollno": "241034040201",
+        "sno": "12345"
+      },
+      "chatId": "987654321",
+      "changes": [
+        {
+          "column": "a1te_1",
+          "value": "55"
+        },
+        {
+          "column": "a1gr_1",
+          "value": "B+"
+        }
+      ],
+      "userMessage": "Please approve my marks update",
+      "paymentScreenshotUrl": "/uploads/REQ-20261005-10-42-51-0201.png",
+      "paymentScreenshotPath": "C:\\Users\\Administrator\\Downloads\\resultupdater2529-main (1)\\resultupdater2529-main\\uploads\\REQ-20261005-10-42-51-0201.png",
+      "status": "REJECTED",
+      "submittedAt": "2026-10-05 10:42:53",
+      "ipAddress": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "updatedAt": "2026-10-05 10:43:18",
+      "approvedBy": "12345678",
+      "reviewedBy": "12345678",
+      "comment": "Approved & executed by @AdminUser"
+    },
+    "REQ-20261005-10-44-25-0201": {
+      "requestId": "REQ-20261005-10-44-25-0201",
+      "rollno": "241034040201",
+      "studentName": "Test Student",
+      "student": {
+        "name": "Test Student",
+        "rollno": "241034040201",
+        "sno": "12345"
+      },
+      "chatId": "987654321",
+      "changes": [
+        {
+          "column": "a1te_1",
+          "value": "55"
+        },
+        {
+          "column": "a1gr_1",
+          "value": "B+"
+        }
+      ],
+      "userMessage": "Please approve my marks update",
+      "paymentScreenshotUrl": "/uploads/REQ-20261005-10-44-25-0201.png",
+      "paymentScreenshotPath": "C:\\Users\\Administrator\\Downloads\\resultupdater2529-main (1)\\resultupdater2529-main\\uploads\\REQ-20261005-10-44-25-0201.png",
+      "status": "REJECTED",
+      "submittedAt": "2026-10-05 10:44:28",
+      "ipAddress": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "updatedAt": "2026-10-05 10:44:36",
+      "approvedBy": "12345678",
+      "reviewedBy": "12345678",
+      "comment": "Approved & executed by @AdminUser"
+    },
+    "REQ-20261005-11-01-32-0201": {
+      "requestId": "REQ-20261005-11-01-32-0201",
+      "rollno": "241034040201",
+      "studentName": "Test Student",
+      "student": {
+        "name": "Test Student",
+        "rollno": "241034040201",
+        "sno": "12345"
+      },
+      "chatId": "987654321",
+      "changes": [
+        {
+          "column": "a1te_1",
+          "value": "55"
+        },
+        {
+          "column": "a1gr_1",
+          "value": "B+"
+        }
+      ],
+      "userMessage": "Please approve my marks update",
+      "paymentScreenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791178294/lnmu_payments/REQ-20261005-11-01-32-0201.png",
+      "paymentScreenshotPath": "C:\\Users\\Administrator\\Downloads\\resultupdater2529-main (1)\\resultupdater2529-main\\uploads\\REQ-20261005-11-01-32-0201.png",
+      "status": "REJECTED",
+      "submittedAt": "2026-10-05 11:01:36",
+      "ipAddress": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "updatedAt": "2026-10-05 11:04:21",
+      "approvedBy": "6693212794",
+      "reviewedBy": "6693212794",
+      "comment": "Rejected by @anesh1109",
+      "rejectionReason": "Duplicate or spam submission detected."
+    },
+    "REQ-20261005-11-12-59-0201": {
+      "requestId": "REQ-20261005-11-12-59-0201",
+      "rollno": "241034040201",
+      "studentName": "Test Student",
+      "student": {
+        "name": "Test Student",
+        "rollno": "241034040201",
+        "sno": "12345"
+      },
+      "chatId": "987654321",
+      "changes": [
+        {
+          "column": "a1te_1",
+          "value": "55"
+        },
+        {
+          "column": "a1gr_1",
+          "value": "B+"
+        }
+      ],
+      "userMessage": "Please approve my marks update",
+      "paymentScreenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791178980/lnmu_payments/REQ-20261005-11-12-59-0201.png",
+      "paymentScreenshotPath": "C:\\Users\\Administrator\\Downloads\\resultupdater2529-main (1)\\resultupdater2529-main\\uploads\\REQ-20261005-11-12-59-0201.png",
+      "status": "REJECTED",
+      "submittedAt": "2026-10-05 11:13:03",
+      "ipAddress": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "updatedAt": "2026-10-05 11:13:13",
+      "approvedBy": "12345678",
+      "reviewedBy": "12345678",
+      "comment": "Approved & executed by @AdminUser"
+    },
+    "REQ-TEST-REJECT-01": {
+      "requestId": "REQ-TEST-REJECT-01",
+      "rollno": "241034040999",
+      "status": "REJECTED",
+      "submittedAt": "2026-10-05 11:00:00",
+      "changes": [],
+      "updatedAt": "2026-10-05 11:14:01",
+      "rejectionReason": "Payment invalid"
+    },
+    "REQ-20261005-11-31-31-0201": {
+      "requestId": "REQ-20261005-11-31-31-0201",
+      "rollno": "241034040201",
+      "studentName": "Test Student",
+      "student": {
+        "name": "Test Student",
+        "rollno": "241034040201",
+        "sno": "12345"
+      },
+      "chatId": "987654321",
+      "changes": [
+        {
+          "column": "a1te_1",
+          "value": "55"
+        },
+        {
+          "column": "a1gr_1",
+          "value": "B+"
+        }
+      ],
+      "userMessage": "Please approve my marks update",
+      "paymentScreenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791180092/lnmu_payments/REQ-20261005-11-31-31-0201.png",
+      "paymentScreenshotPath": "C:\\Users\\Administrator\\Downloads\\resultupdater2529-main (1)\\resultupdater2529-main\\uploads\\REQ-20261005-11-31-31-0201.png",
+      "status": "REJECTED",
+      "submittedAt": "2026-10-05 11:31:35",
+      "ipAddress": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "updatedAt": "2026-10-05 11:32:05",
+      "approvedBy": "12345678",
+      "reviewedBy": "12345678",
+      "comment": "Approved & executed by @AdminUser"
+    },
+    "REQ-20261005-11-35-26-0201": {
+      "requestId": "REQ-20261005-11-35-26-0201",
+      "rollno": "241034040201",
+      "studentName": "Test Student",
+      "student": {
+        "name": "Test Student",
+        "rollno": "241034040201",
+        "sno": "12345"
+      },
+      "chatId": "987654321",
+      "changes": [
+        {
+          "column": "a1te_1",
+          "value": "55"
+        },
+        {
+          "column": "a1gr_1",
+          "value": "B+"
+        }
+      ],
+      "userMessage": "Please approve my marks update",
+      "paymentScreenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791180328/lnmu_payments/REQ-20261005-11-35-26-0201.png",
+      "paymentScreenshotPath": "C:\\Users\\Administrator\\Downloads\\resultupdater2529-main (1)\\resultupdater2529-main\\uploads\\REQ-20261005-11-35-26-0201.png",
+      "status": "REJECTED",
+      "submittedAt": "2026-10-05 11:35:30",
+      "ipAddress": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "updatedAt": "2026-10-05 11:35:37",
+      "approvedBy": "12345678",
+      "reviewedBy": "12345678",
+      "comment": "Approved & executed by @AdminUser"
+    },
+    "REQ-20261005-11-36-28-0201": {
+      "requestId": "REQ-20261005-11-36-28-0201",
+      "rollno": "241034040201",
+      "studentName": "Test Student",
+      "student": {
+        "name": "Test Student",
+        "rollno": "241034040201",
+        "sno": "12345"
+      },
+      "chatId": "987654321",
+      "changes": [
+        {
+          "column": "a1te_1",
+          "value": "55"
+        },
+        {
+          "column": "a1gr_1",
+          "value": "B+"
+        }
+      ],
+      "userMessage": "Please approve my marks update",
+      "paymentScreenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791180389/lnmu_payments/REQ-20261005-11-36-28-0201.png",
+      "paymentScreenshotPath": "C:\\Users\\Administrator\\Downloads\\resultupdater2529-main (1)\\resultupdater2529-main\\uploads\\REQ-20261005-11-36-28-0201.png",
+      "status": "REJECTED",
+      "submittedAt": "2026-10-05 11:36:32",
+      "ipAddress": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "updatedAt": "2026-10-05 11:36:40",
+      "approvedBy": "12345678",
+      "reviewedBy": "12345678",
+      "comment": "Approved & executed by @AdminUser"
+    },
+    "REQ-20261005-12-02-52-0201": {
+      "requestId": "REQ-20261005-12-02-52-0201",
+      "rollno": "241034040201",
+      "studentName": "Rahul Kumar",
+      "college": "C. M. Science College",
+      "amount": 1500.0,
+      "currency": "INR",
+      "changes": [
+        {
+          "column": "a1te_1",
+          "before": 45,
+          "after": 75,
+          "oldValue": 45,
+          "newValue": 75
+        },
+        {
+          "column": "a1te_2",
+          "before": 40,
+          "after": 70,
+          "oldValue": 40,
+          "newValue": 70
+        }
+      ],
+      "paymentScreenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791181972/lnmu_payments/REQ-20261005-12-02-50-0201.png",
+      "paymentScreenshotPath": "C:\\Users\\Administrator\\Downloads\\resultupdater2529-main (1)\\resultupdater2529-main\\uploads\\REQ-20261005-12-02-50-0201.png",
+      "status": "REJECTED",
+      "submittedAt": "2026-10-05 12:02:53",
+      "userMessage": "Please review my marks update",
+      "reviewedAt": null,
+      "rejectionReason": "Test cleanup"
+    },
+    "REQ-20261005-12-04-37-0201": {
+      "requestId": "REQ-20261005-12-04-37-0201",
+      "rollno": "241034040201",
+      "studentName": "Rahul Kumar",
+      "college": "C. M. Science College",
+      "amount": 1500.0,
+      "currency": "INR",
+      "changes": [
+        {
+          "column": "a1te_1",
+          "before": 45,
+          "after": 75,
+          "oldValue": 45,
+          "newValue": 75
+        },
+        {
+          "column": "a1te_2",
+          "before": 40,
+          "after": 70,
+          "oldValue": 40,
+          "newValue": 70
+        }
+      ],
+      "paymentScreenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791182076/lnmu_payments/REQ-20261005-12-04-35-0201.png",
+      "paymentScreenshotPath": "C:\\Users\\Administrator\\Downloads\\resultupdater2529-main (1)\\resultupdater2529-main\\uploads\\REQ-20261005-12-04-35-0201.png",
+      "status": "REJECTED",
+      "submittedAt": "2026-10-05 12:04:39",
+      "userMessage": "Please review my marks update",
+      "reviewedAt": null,
+      "rejectionReason": null
+    },
+    "REQ-20261005-12-05-39-0201": {
+      "requestId": "REQ-20261005-12-05-39-0201",
+      "rollno": "241034040201",
+      "studentName": "Rahul Kumar",
+      "college": "C. M. Science College",
+      "amount": 1500.0,
+      "currency": "INR",
+      "changes": [
+        {
+          "column": "a1te_1",
+          "before": 45,
+          "after": 75,
+          "oldValue": 45,
+          "newValue": 75
+        },
+        {
+          "column": "a1te_2",
+          "before": 40,
+          "after": 70,
+          "oldValue": 40,
+          "newValue": 70
+        }
+      ],
+      "paymentScreenshotUrl": "https://res.cloudinary.com/test.png",
+      "paymentScreenshotPath": "test.png",
+      "status": "REJECTED",
+      "submittedAt": "2026-10-05 12:05:41",
+      "userMessage": "Please review my marks update",
+      "reviewedAt": null,
+      "rejectionReason": "Test cleanup"
+    },
+    "REQ-20261005-12-06-33-0201": {
+      "requestId": "REQ-20261005-12-06-33-0201",
+      "rollno": "241034040201",
+      "studentName": "Rahul Kumar",
+      "college": "C. M. Science College",
+      "amount": 1500.0,
+      "currency": "INR",
+      "changes": [
+        {
+          "column": "a1te_1",
+          "before": 45,
+          "after": 75,
+          "oldValue": 45,
+          "newValue": 75
+        },
+        {
+          "column": "a1te_2",
+          "before": 40,
+          "after": 70,
+          "oldValue": 40,
+          "newValue": 70
+        }
+      ],
+      "paymentScreenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791182193/lnmu_payments/REQ-20261005-12-06-31-0201.png",
+      "paymentScreenshotPath": "C:\\Users\\Administrator\\Downloads\\resultupdater2529-main (1)\\resultupdater2529-main\\uploads\\REQ-20261005-12-06-31-0201.png",
+      "status": "APPROVED",
+      "submittedAt": "2026-10-05 12:06:35",
+      "userMessage": "Please review my marks update",
+      "reviewedAt": null,
+      "rejectionReason": null,
+      "updatedAt": "2026-10-05 12:06:44",
+      "approvedBy": "12345678",
+      "reviewedBy": "12345678",
+      "comment": "Approved & executed by @AdminUser"
+    },
+    "REQ-20261005-12-26-01-0201": {
+      "requestId": "REQ-20261005-12-26-01-0201",
+      "rollno": "241034040201",
+      "studentName": "Rahul Kumar",
+      "college": "C. M. Science College",
+      "amount": 1500.0,
+      "currency": "INR",
+      "changes": [
+        {
+          "column": "a1te_1",
+          "before": 45,
+          "after": 75,
+          "oldValue": 45,
+          "newValue": 75
+        },
+        {
+          "column": "a1te_2",
+          "before": 40,
+          "after": 70,
+          "oldValue": 40,
+          "newValue": 70
+        }
+      ],
+      "paymentScreenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791183361/lnmu_payments/REQ-20261005-12-25-59-0201.png",
+      "paymentScreenshotPath": "C:\\Users\\Administrator\\Downloads\\resultupdater2529-main (1)\\resultupdater2529-main\\uploads\\REQ-20261005-12-25-59-0201.png",
+      "status": "APPROVED",
+      "submittedAt": "2026-10-05 12:26:03",
+      "userMessage": "Please review my marks update",
+      "reviewedAt": null,
+      "rejectionReason": null,
+      "updatedAt": "2026-10-05 12:26:36",
+      "approvedBy": "12345678",
+      "reviewedBy": "12345678",
+      "comment": "Approved & executed by @AdminUser"
+    },
+    "REQ-20261005-12-38-42-0201": {
+      "requestId": "REQ-20261005-12-38-42-0201",
+      "rollno": "241034040201",
+      "studentName": "Rahul Kumar",
+      "college": "C. M. Science College",
+      "amount": 1500.0,
+      "currency": "INR",
+      "changes": [
+        {
+          "column": "a1te_1",
+          "before": 45,
+          "after": 75,
+          "oldValue": 45,
+          "newValue": 75
+        },
+        {
+          "column": "a1te_2",
+          "before": 40,
+          "after": 70,
+          "oldValue": 40,
+          "newValue": 70
+        }
+      ],
+      "paymentScreenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791184121/lnmu_payments/REQ-20261005-12-38-39-0201.png",
+      "paymentScreenshotPath": "C:\\Users\\Administrator\\Downloads\\resultupdater2529-main (1)\\resultupdater2529-main\\uploads\\REQ-20261005-12-38-39-0201.png",
+      "status": "APPROVED",
+      "submittedAt": "2026-10-05 12:38:44",
+      "userMessage": "Please review my marks update",
+      "reviewedAt": null,
+      "rejectionReason": null,
+      "updatedAt": "2026-10-05 12:38:53",
+      "approvedBy": "12345678",
+      "reviewedBy": "12345678",
+      "comment": "Approved & executed by @AdminUser"
+    },
+    "REQ-20261005-12-54-05-0201": {
+      "requestId": "REQ-20261005-12-54-05-0201",
+      "rollno": "241034040201",
+      "studentName": "Rahul Kumar",
+      "college": "C. M. Science College",
+      "amount": 1500.0,
+      "currency": "INR",
+      "changes": [
+        {
+          "column": "a1te_1",
+          "before": 45,
+          "after": 75,
+          "oldValue": 45,
+          "newValue": 75,
+          "value": 75,
+          "subject": "",
+          "label": "",
+          "isDerived": false
+        },
+        {
+          "column": "a1te_2",
+          "before": 40,
+          "after": 70,
+          "oldValue": 40,
+          "newValue": 70,
+          "value": 70,
+          "subject": "",
+          "label": "",
+          "isDerived": false
+        }
+      ],
+      "paymentScreenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791185045/lnmu_payments/REQ-20261005-12-54-04-0201.png",
+      "paymentScreenshotPath": "C:\\Users\\Administrator\\Downloads\\resultupdater2529-main (1)\\resultupdater2529-main\\uploads\\REQ-20261005-12-54-04-0201.png",
+      "status": "APPROVED",
+      "submittedAt": "2026-10-05 12:54:08",
+      "userMessage": "Please review my marks update",
+      "reviewedAt": null,
+      "rejectionReason": null,
+      "updatedAt": "2026-10-05 12:54:16",
+      "approvedBy": "12345678",
+      "reviewedBy": "12345678",
+      "comment": "Approved & executed by @AdminUser"
+    },
+    "REQ-20261005-13-20-15-0201": {
+      "requestId": "REQ-20261005-13-20-15-0201",
+      "rollno": "241034040201",
+      "studentName": "Rahul Kumar",
+      "college": "C. M. Science College",
+      "amount": 1500.0,
+      "currency": "INR",
+      "changes": [
+        {
+          "column": "a1te_1",
+          "before": 45,
+          "after": 75,
+          "oldValue": 45,
+          "newValue": 75,
+          "value": 75,
+          "is_null": false,
+          "subject": "",
+          "label": "",
+          "isDerived": false
+        },
+        {
+          "column": "a1te_2",
+          "before": 40,
+          "after": 70,
+          "oldValue": 40,
+          "newValue": 70,
+          "value": 70,
+          "is_null": false,
+          "subject": "",
+          "label": "",
+          "isDerived": false
+        }
+      ],
+      "paymentScreenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791186615/lnmu_payments/REQ-20261005-13-20-14-0201.png",
+      "paymentScreenshotPath": "C:\\Users\\Administrator\\Downloads\\resultupdater2529-main (1)\\resultupdater2529-main\\uploads\\REQ-20261005-13-20-14-0201.png",
+      "status": "APPROVED",
+      "submittedAt": "2026-10-05 13:20:17",
+      "userMessage": "Please review my marks update",
+      "reviewedAt": null,
+      "rejectionReason": null,
+      "updatedAt": "2026-10-05 13:20:46",
+      "approvedBy": "12345678",
+      "reviewedBy": "12345678",
+      "comment": "Approved & executed by @AdminUser"
+    },
+    "REQ-20261005-13-30-12-0201": {
+      "requestId": "REQ-20261005-13-30-12-0201",
+      "rollno": "241034040201",
+      "studentName": "Rahul Kumar",
+      "college": "C. M. Science College",
+      "amount": 1500.0,
+      "currency": "INR",
+      "changes": [
+        {
+          "column": "a1te_1",
+          "before": 45,
+          "after": 75,
+          "oldValue": 45,
+          "newValue": 75,
+          "value": 75,
+          "is_null": false,
+          "subject": "",
+          "label": "",
+          "isDerived": false
+        },
+        {
+          "column": "a1te_2",
+          "before": 40,
+          "after": 70,
+          "oldValue": 40,
+          "newValue": 70,
+          "value": 70,
+          "is_null": false,
+          "subject": "",
+          "label": "",
+          "isDerived": false
+        }
+      ],
+      "paymentScreenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791187211/lnmu_payments/REQ-20261005-13-30-10-0201.png",
+      "paymentScreenshotPath": "C:\\Users\\Administrator\\Downloads\\resultupdater2529-main (1)\\resultupdater2529-main\\uploads\\REQ-20261005-13-30-10-0201.png",
+      "status": "APPROVED",
+      "submittedAt": "2026-10-05 13:30:14",
+      "userMessage": "Please review my marks update",
+      "reviewedAt": null,
+      "rejectionReason": null,
+      "updatedAt": "2026-10-05 13:30:21",
+      "approvedBy": "12345678",
+      "reviewedBy": "12345678",
+      "comment": "Approved & executed by @AdminUser"
+    },
+    "REQ-20261005-13-35-49-0201": {
+      "requestId": "REQ-20261005-13-35-49-0201",
+      "rollno": "241034040201",
+      "studentName": "Rahul Kumar",
+      "college": "C. M. Science College",
+      "amount": 1500.0,
+      "currency": "INR",
+      "changes": [
+        {
+          "column": "a1te_1",
+          "before": 45,
+          "after": 75,
+          "oldValue": 45,
+          "newValue": 75,
+          "value": 75,
+          "is_null": false,
+          "subject": "",
+          "label": "",
+          "isDerived": false
+        },
+        {
+          "column": "a1te_2",
+          "before": 40,
+          "after": 70,
+          "oldValue": 40,
+          "newValue": 70,
+          "value": 70,
+          "is_null": false,
+          "subject": "",
+          "label": "",
+          "isDerived": false
+        }
+      ],
+      "paymentScreenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791187548/lnmu_payments/REQ-20261005-13-35-46-0201.png",
+      "paymentScreenshotPath": "C:\\Users\\Administrator\\Downloads\\resultupdater2529-main (1)\\resultupdater2529-main\\uploads\\REQ-20261005-13-35-46-0201.png",
+      "status": "APPROVED",
+      "submittedAt": "2026-10-05 13:35:51",
+      "userMessage": "Please review my marks update",
+      "reviewedAt": null,
+      "rejectionReason": null,
+      "updatedAt": "2026-10-05 13:36:04",
+      "approvedBy": "12345678",
+      "reviewedBy": "12345678",
+      "comment": "Approved & executed by @AdminUser"
+    },
+    "REQ-20261005-14-01-52-0201": {
+      "requestId": "REQ-20261005-14-01-52-0201",
+      "rollno": "241034040201",
+      "studentName": "Rahul Kumar",
+      "college": "C. M. Science College",
+      "amount": 1500.0,
+      "currency": "INR",
+      "changes": [
+        {
+          "column": "a1te_1",
+          "before": 45,
+          "after": 75,
+          "oldValue": 45,
+          "newValue": 75,
+          "value": 75,
+          "is_null": false,
+          "subject": "",
+          "label": "",
+          "isDerived": false
+        },
+        {
+          "column": "a1te_2",
+          "before": 40,
+          "after": 70,
+          "oldValue": 40,
+          "newValue": 70,
+          "value": 70,
+          "is_null": false,
+          "subject": "",
+          "label": "",
+          "isDerived": false
+        }
+      ],
+      "paymentScreenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791189111/lnmu_payments/REQ-20261005-14-01-50-0201.png",
+      "paymentScreenshotPath": "C:\\Users\\Administrator\\Downloads\\resultupdater2529-main (1)\\resultupdater2529-main\\uploads\\REQ-20261005-14-01-50-0201.png",
+      "status": "APPROVED",
+      "submittedAt": "2026-10-05 14:01:54",
+      "userMessage": "Please review my marks update",
+      "reviewedAt": null,
+      "rejectionReason": null,
+      "updatedAt": "2026-10-05 14:02:12",
+      "approvedBy": "12345678",
+      "reviewedBy": "12345678",
+      "comment": "Approved & executed by @AdminUser"
+    }
+  },
+  "auditLogs": [
+    {
+      "action": "REQUEST_SUBMITTED",
+      "actor": "user_987654321",
+      "actorType": "USER",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-09-41-04-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesCount": 2,
+        "screenshotUrl": "/uploads/REQ-20261005-09-41-04-0201.png",
+        "telegramNotified": false
+      },
+      "ip": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "logId": "LOG-20261005-09-41-24-779",
+      "timestamp": "2026-10-05 09:41:24"
+    },
+    {
+      "action": "REQUEST_SUBMITTED",
+      "actor": "user_987654321",
+      "actorType": "USER",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-09-44-18-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesCount": 2,
+        "screenshotUrl": "/uploads/REQ-20261005-09-44-18-0201.png",
+        "telegramNotified": false
+      },
+      "ip": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "logId": "LOG-20261005-09-44-22-966",
+      "timestamp": "2026-10-05 09:44:22"
+    },
+    {
+      "action": "REQUEST_SUBMITTED",
+      "actor": "user_987654321",
+      "actorType": "USER",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-09-45-47-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesCount": 2,
+        "screenshotUrl": "/uploads/REQ-20261005-09-45-47-0201.png",
+        "telegramNotified": false
+      },
+      "ip": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "logId": "LOG-20261005-09-45-51-259",
+      "timestamp": "2026-10-05 09:45:51"
+    },
+    {
+      "action": "REQUEST_SUBMITTED",
+      "actor": "user_987654321",
+      "actorType": "USER",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-09-48-37-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesCount": 2,
+        "screenshotUrl": "/uploads/REQ-20261005-09-48-37-0201.png",
+        "telegramNotified": false
+      },
+      "ip": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "logId": "LOG-20261005-09-48-43-245",
+      "timestamp": "2026-10-05 09:48:43"
+    },
+    {
+      "action": "REQUEST_SUBMITTED",
+      "actor": "user_987654321",
+      "actorType": "USER",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-09-49-51-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesCount": 2,
+        "screenshotUrl": "/uploads/REQ-20261005-09-49-51-0201.png",
+        "telegramNotified": false
+      },
+      "ip": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "logId": "LOG-20261005-09-49-58-508",
+      "timestamp": "2026-10-05 09:49:58"
+    },
+    {
+      "action": "REQUEST_APPROVED",
+      "actor": "admin_AdminUser",
+      "actorType": "ADMIN",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-09-49-51-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesExecuted": 2
+      },
+      "logId": "LOG-20261005-09-50-05-275",
+      "timestamp": "2026-10-05 09:50:05"
+    },
+    {
+      "action": "REQUEST_SUBMITTED",
+      "actor": "user_987654321",
+      "actorType": "USER",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-10-40-42-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesCount": 2,
+        "screenshotUrl": "/uploads/REQ-20261005-10-40-42-0201.png",
+        "telegramNotified": false
+      },
+      "ip": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "logId": "LOG-20261005-10-40-46-366",
+      "timestamp": "2026-10-05 10:40:46"
+    },
+    {
+      "action": "REQUEST_APPROVED",
+      "actor": "admin_AdminUser",
+      "actorType": "ADMIN",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-10-40-42-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesExecuted": 2
+      },
+      "logId": "LOG-20261005-10-40-53-242",
+      "timestamp": "2026-10-05 10:40:53"
+    },
+    {
+      "action": "REQUEST_SUBMITTED",
+      "actor": "user_987654321",
+      "actorType": "USER",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-10-42-51-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesCount": 2,
+        "screenshotUrl": "/uploads/REQ-20261005-10-42-51-0201.png",
+        "telegramNotified": false
+      },
+      "ip": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "logId": "LOG-20261005-10-42-53-934",
+      "timestamp": "2026-10-05 10:42:53"
+    },
+    {
+      "action": "REQUEST_APPROVED",
+      "actor": "admin_AdminUser",
+      "actorType": "ADMIN",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-10-42-51-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesExecuted": 2
+      },
+      "logId": "LOG-20261005-10-43-18-412",
+      "timestamp": "2026-10-05 10:43:18"
+    },
+    {
+      "action": "REQUEST_SUBMITTED",
+      "actor": "user_987654321",
+      "actorType": "USER",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-10-44-25-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesCount": 2,
+        "screenshotUrl": "/uploads/REQ-20261005-10-44-25-0201.png",
+        "telegramNotified": false
+      },
+      "ip": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "logId": "LOG-20261005-10-44-29-838",
+      "timestamp": "2026-10-05 10:44:29"
+    },
+    {
+      "action": "REQUEST_APPROVED",
+      "actor": "admin_AdminUser",
+      "actorType": "ADMIN",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-10-44-25-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesExecuted": 2
+      },
+      "logId": "LOG-20261005-10-44-36-127",
+      "timestamp": "2026-10-05 10:44:36"
+    },
+    {
+      "action": "REQUEST_SUBMITTED",
+      "actor": "user_987654321",
+      "actorType": "USER",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-11-01-32-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesCount": 2,
+        "screenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791178294/lnmu_payments/REQ-20261005-11-01-32-0201.png",
+        "telegramNotified": true
+      },
+      "ip": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "logId": "LOG-20261005-11-01-38-375",
+      "timestamp": "2026-10-05 11:01:38"
+    },
+    {
+      "action": "REQUEST_APPROVED",
+      "actor": "admin_AdminUser",
+      "actorType": "ADMIN",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-11-01-32-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesExecuted": 2
+      },
+      "logId": "LOG-20261005-11-01-46-240",
+      "timestamp": "2026-10-05 11:01:46"
+    },
+    {
+      "action": "REQUEST_SUBMITTED",
+      "actor": "user_987654321",
+      "actorType": "USER",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-11-12-59-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesCount": 2,
+        "screenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791178980/lnmu_payments/REQ-20261005-11-12-59-0201.png",
+        "telegramNotified": true
+      },
+      "ip": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "logId": "LOG-20261005-11-13-04-788",
+      "timestamp": "2026-10-05 11:13:04"
+    },
+    {
+      "action": "REQUEST_APPROVED",
+      "actor": "admin_AdminUser",
+      "actorType": "ADMIN",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-11-12-59-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesExecuted": 2
+      },
+      "logId": "LOG-20261005-11-13-13-115",
+      "timestamp": "2026-10-05 11:13:13"
+    },
+    {
+      "action": "REQUEST_SUBMITTED",
+      "actor": "user_987654321",
+      "actorType": "USER",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-11-31-31-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesCount": 2,
+        "screenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791180092/lnmu_payments/REQ-20261005-11-31-31-0201.png",
+        "telegramNotified": true
+      },
+      "ip": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "logId": "LOG-20261005-11-31-58-624",
+      "timestamp": "2026-10-05 11:31:58"
+    },
+    {
+      "action": "REQUEST_APPROVED",
+      "actor": "admin_AdminUser",
+      "actorType": "ADMIN",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-11-31-31-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesExecuted": 2
+      },
+      "logId": "LOG-20261005-11-32-05-220",
+      "timestamp": "2026-10-05 11:32:05"
+    },
+    {
+      "action": "REQUEST_SUBMITTED",
+      "actor": "user_987654321",
+      "actorType": "USER",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-11-35-26-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesCount": 2,
+        "screenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791180328/lnmu_payments/REQ-20261005-11-35-26-0201.png",
+        "telegramNotified": true
+      },
+      "ip": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "logId": "LOG-20261005-11-35-31-638",
+      "timestamp": "2026-10-05 11:35:31"
+    },
+    {
+      "action": "REQUEST_APPROVED",
+      "actor": "admin_AdminUser",
+      "actorType": "ADMIN",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-11-35-26-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesExecuted": 2
+      },
+      "logId": "LOG-20261005-11-35-37-541",
+      "timestamp": "2026-10-05 11:35:37"
+    },
+    {
+      "action": "REQUEST_SUBMITTED",
+      "actor": "user_987654321",
+      "actorType": "USER",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-11-36-28-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesCount": 2,
+        "screenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791180389/lnmu_payments/REQ-20261005-11-36-28-0201.png",
+        "telegramNotified": true
+      },
+      "ip": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "logId": "LOG-20261005-11-36-33-386",
+      "timestamp": "2026-10-05 11:36:33"
+    },
+    {
+      "action": "REQUEST_APPROVED",
+      "actor": "admin_AdminUser",
+      "actorType": "ADMIN",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-11-36-28-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesExecuted": 2
+      },
+      "logId": "LOG-20261005-11-36-40-405",
+      "timestamp": "2026-10-05 11:36:40"
+    },
+    {
+      "action": "REQUEST_SUBMITTED",
+      "actor": "user_241034040201",
+      "actorType": "USER",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-12-02-52-0201",
+      "status": "SUCCESS",
+      "details": {
+        "amount": 1500.0,
+        "changesCount": 2,
+        "screenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791181972/lnmu_payments/REQ-20261005-12-02-50-0201.png",
+        "telegramNotified": true
+      },
+      "ip": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "logId": "LOG-20261005-12-03-03-009",
+      "timestamp": "2026-10-05 12:03:03"
+    },
+    {
+      "action": "REQUEST_SUBMITTED",
+      "actor": "user_241034040201",
+      "actorType": "USER",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-12-04-37-0201",
+      "status": "SUCCESS",
+      "details": {
+        "amount": 1500.0,
+        "changesCount": 2,
+        "screenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791182076/lnmu_payments/REQ-20261005-12-04-35-0201.png",
+        "telegramNotified": true
+      },
+      "ip": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "logId": "LOG-20261005-12-04-56-219",
+      "timestamp": "2026-10-05 12:04:56"
+    },
+    {
+      "action": "REQUEST_SUBMITTED",
+      "actor": "user_241034040201",
+      "actorType": "USER",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-12-05-39-0201",
+      "status": "SUCCESS",
+      "details": {
+        "amount": 1500.0,
+        "changesCount": 2,
+        "screenshotUrl": "https://res.cloudinary.com/test.png",
+        "telegramNotified": true
+      },
+      "ip": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "logId": "LOG-20261005-12-05-44-429",
+      "timestamp": "2026-10-05 12:05:44"
+    },
+    {
+      "action": "REQUEST_SUBMITTED",
+      "actor": "user_241034040201",
+      "actorType": "USER",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-12-06-33-0201",
+      "status": "SUCCESS",
+      "details": {
+        "amount": 1500.0,
+        "changesCount": 2,
+        "screenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791182193/lnmu_payments/REQ-20261005-12-06-31-0201.png",
+        "telegramNotified": true
+      },
+      "ip": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "logId": "LOG-20261005-12-06-37-179",
+      "timestamp": "2026-10-05 12:06:37"
+    },
+    {
+      "action": "REQUEST_APPROVED",
+      "actor": "admin_AdminUser",
+      "actorType": "ADMIN",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-12-06-33-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesExecuted": 2
+      },
+      "logId": "LOG-20261005-12-06-44-501",
+      "timestamp": "2026-10-05 12:06:44"
+    },
+    {
+      "action": "REQUEST_SUBMITTED",
+      "actor": "user_241034040201",
+      "actorType": "USER",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-12-26-01-0201",
+      "status": "SUCCESS",
+      "details": {
+        "amount": 1500.0,
+        "changesCount": 2,
+        "screenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791183361/lnmu_payments/REQ-20261005-12-25-59-0201.png",
+        "telegramNotified": true
+      },
+      "ip": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "logId": "LOG-20261005-12-26-04-755",
+      "timestamp": "2026-10-05 12:26:04"
+    },
+    {
+      "action": "REQUEST_APPROVED",
+      "actor": "admin_AdminUser",
+      "actorType": "ADMIN",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-12-26-01-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesExecuted": 2
+      },
+      "logId": "LOG-20261005-12-26-36-544",
+      "timestamp": "2026-10-05 12:26:36"
+    },
+    {
+      "action": "REQUEST_SUBMITTED",
+      "actor": "user_241034040201",
+      "actorType": "USER",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-12-38-42-0201",
+      "status": "SUCCESS",
+      "details": {
+        "amount": 1500.0,
+        "changesCount": 2,
+        "screenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791184121/lnmu_payments/REQ-20261005-12-38-39-0201.png",
+        "telegramNotified": true
+      },
+      "ip": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "logId": "LOG-20261005-12-38-45-475",
+      "timestamp": "2026-10-05 12:38:45"
+    },
+    {
+      "action": "REQUEST_APPROVED",
+      "actor": "admin_AdminUser",
+      "actorType": "ADMIN",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-12-38-42-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesExecuted": 2
+      },
+      "logId": "LOG-20261005-12-38-53-318",
+      "timestamp": "2026-10-05 12:38:53"
+    },
+    {
+      "action": "REQUEST_SUBMITTED",
+      "actor": "user_241034040201",
+      "actorType": "USER",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-12-54-05-0201",
+      "status": "SUCCESS",
+      "details": {
+        "amount": 1500.0,
+        "changesCount": 2,
+        "screenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791185045/lnmu_payments/REQ-20261005-12-54-04-0201.png",
+        "telegramNotified": true
+      },
+      "ip": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "logId": "LOG-20261005-12-54-10-040",
+      "timestamp": "2026-10-05 12:54:10"
+    },
+    {
+      "action": "REQUEST_APPROVED",
+      "actor": "admin_AdminUser",
+      "actorType": "ADMIN",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-12-54-05-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesExecuted": 2
+      },
+      "logId": "LOG-20261005-12-54-16-547",
+      "timestamp": "2026-10-05 12:54:16"
+    },
+    {
+      "action": "REQUEST_SUBMITTED",
+      "actor": "user_241034040201",
+      "actorType": "USER",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-13-20-15-0201",
+      "status": "SUCCESS",
+      "details": {
+        "amount": 1500.0,
+        "changesCount": 2,
+        "screenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791186615/lnmu_payments/REQ-20261005-13-20-14-0201.png",
+        "telegramNotified": true
+      },
+      "ip": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "logId": "LOG-20261005-13-20-40-540",
+      "timestamp": "2026-10-05 13:20:40"
+    },
+    {
+      "action": "REQUEST_APPROVED",
+      "actor": "admin_AdminUser",
+      "actorType": "ADMIN",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-13-20-15-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesExecuted": 2
+      },
+      "logId": "LOG-20261005-13-20-46-902",
+      "timestamp": "2026-10-05 13:20:46"
+    },
+    {
+      "action": "REQUEST_SUBMITTED",
+      "actor": "user_241034040201",
+      "actorType": "USER",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-13-30-12-0201",
+      "status": "SUCCESS",
+      "details": {
+        "amount": 1500.0,
+        "changesCount": 2,
+        "screenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791187211/lnmu_payments/REQ-20261005-13-30-10-0201.png",
+        "telegramNotified": true
+      },
+      "ip": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "logId": "LOG-20261005-13-30-15-346",
+      "timestamp": "2026-10-05 13:30:15"
+    },
+    {
+      "action": "REQUEST_APPROVED",
+      "actor": "admin_AdminUser",
+      "actorType": "ADMIN",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-13-30-12-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesExecuted": 2
+      },
+      "logId": "LOG-20261005-13-30-21-197",
+      "timestamp": "2026-10-05 13:30:21"
+    },
+    {
+      "action": "REQUEST_SUBMITTED",
+      "actor": "user_241034040201",
+      "actorType": "USER",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-13-35-49-0201",
+      "status": "SUCCESS",
+      "details": {
+        "amount": 1500.0,
+        "changesCount": 2,
+        "screenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791187548/lnmu_payments/REQ-20261005-13-35-46-0201.png",
+        "telegramNotified": true
+      },
+      "ip": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "logId": "LOG-20261005-13-35-53-091",
+      "timestamp": "2026-10-05 13:35:53"
+    },
+    {
+      "action": "REQUEST_APPROVED",
+      "actor": "admin_AdminUser",
+      "actorType": "ADMIN",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-13-35-49-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesExecuted": 2
+      },
+      "logId": "LOG-20261005-13-36-04-453",
+      "timestamp": "2026-10-05 13:36:04"
+    },
+    {
+      "action": "REQUEST_SUBMITTED",
+      "actor": "user_241034040201",
+      "actorType": "USER",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-14-01-52-0201",
+      "status": "SUCCESS",
+      "details": {
+        "amount": 1500.0,
+        "changesCount": 2,
+        "screenshotUrl": "https://res.cloudinary.com/q1h9wl9t/image/upload/v1791189111/lnmu_payments/REQ-20261005-14-01-50-0201.png",
+        "telegramNotified": true
+      },
+      "ip": "127.0.0.1",
+      "userAgent": "Werkzeug/3.1.9",
+      "logId": "LOG-20261005-14-01-56-270",
+      "timestamp": "2026-10-05 14:01:56"
+    },
+    {
+      "action": "REQUEST_APPROVED",
+      "actor": "admin_AdminUser",
+      "actorType": "ADMIN",
+      "rollno": "241034040201",
+      "requestId": "REQ-20261005-14-01-52-0201",
+      "status": "SUCCESS",
+      "details": {
+        "changesExecuted": 2
+      },
+      "logId": "LOG-20261005-14-02-12-722",
+      "timestamp": "2026-10-05 14:02:12"
+    }
+  ],
+  "blockedUsers": {
+    "241034040201": {
+      "rollno": "241034040201",
+      "reason": "Spam testing",
+      "adminId": "AdminBot",
+      "blockedBy": "AdminBot",
+      "blockedAt": "2026-10-05 14:01:56",
+      "isActive": false,
+      "unblockedAt": "2026-10-05 14:01:56",
+      "unblockedBy": "system"
+    },
+    "251034040999": {
+      "rollno": "251034040999",
+      "reason": "Test block",
+      "adminId": "6693212794",
+      "blockedBy": "6693212794",
+      "blockedAt": "2026-10-05 11:31:18",
+      "isActive": false,
+      "unblockedAt": "2026-10-05 11:31:18",
+      "unblockedBy": "6693212794"
+    },
+    "251034040888": {
+      "rollno": "251034040888",
+      "reason": "Test block 2",
+      "adminId": "admin123",
+      "blockedBy": "admin123",
+      "blockedAt": "2026-10-05 11:31:18",
+      "isActive": true
+    },
+    "251034040201": {
+      "rollno": "251034040201",
+      "reason": "Spam testing",
+      "adminId": "AdminBot",
+      "blockedBy": "AdminBot",
+      "blockedAt": "2026-10-05 15:09:56",
+      "isActive": false,
+      "unblockedAt": "2026-10-05 15:09:59",
+      "unblockedBy": "system"
+    }
+  },
+  "snapshotBeforeUpdate": {
+    "REQ-20261005-09-08-46-0201": {
+      "requestId": "REQ-20261005-09-08-46-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "251034040201",
+          "semester": "2"
+        },
+        "updates": [
+          {
+            "column": "a1te_1",
+            "value": 21
+          },
+          {
+            "column": "cop",
+            "is_null": true,
+            "value": ""
+          }
+        ],
+        "snapshotBefore": {
+          "a1te_1": 20
+        },
+        "actor": "anonymous",
+        "createdAt": "2026-10-05T09:08:46.877356+05:30"
+      },
+      "createdAt": "2026-10-05 09:08:46"
+    },
+    "REQ-20261005-09-12-10-0545": {
+      "requestId": "REQ-20261005-09-12-10-0545",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "232121040545",
+          "semester": "2"
+        },
+        "updates": [
+          {
+            "column": "a1te_1",
+            "value": 75
+          }
+        ],
+        "snapshotBefore": {
+          "primaryKeys": {
+            "rollno": "232121040545",
+            "semester": "2"
+          },
+          "capturedAt": 1791171728.3156688,
+          "targets": {
+            "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": null,
+            "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": null,
+            "DBlnmu_25.dbo.LNMU_RESULT2529": null
+          }
+        },
+        "actor": "anonymous",
+        "createdAt": "2026-10-05T09:12:18.254619+05:30"
+      },
+      "createdAt": "2026-10-05 09:12:18"
+    },
+    "REQ-20261005-09-41-04-0201": {
+      "requestId": "REQ-20261005-09-41-04-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "241034040201",
+          "semester": "2"
+        },
+        "capturedAt": 1791173465.7102444,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": null,
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": null,
+          "DBlnmu_25.dbo.LNMU_RESULT2529": null
+        }
+      },
+      "createdAt": "2026-10-05 09:41:07"
+    },
+    "REQ-20261005-09-44-18-0201": {
+      "requestId": "REQ-20261005-09-44-18-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "241034040201",
+          "semester": "2"
+        },
+        "capturedAt": 1791173659.6649683,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": null,
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": null,
+          "DBlnmu_25.dbo.LNMU_RESULT2529": null
+        }
+      },
+      "createdAt": "2026-10-05 09:44:21"
+    },
+    "REQ-20261005-09-45-47-0201": {
+      "requestId": "REQ-20261005-09-45-47-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "241034040201",
+          "semester": "2"
+        },
+        "capturedAt": 1791173748.6550174,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": null,
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": null,
+          "DBlnmu_25.dbo.LNMU_RESULT2529": null
+        }
+      },
+      "createdAt": "2026-10-05 09:45:50"
+    },
+    "REQ-20261005-09-48-37-0201": {
+      "requestId": "REQ-20261005-09-48-37-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "241034040201",
+          "semester": "2"
+        },
+        "capturedAt": 1791173919.6096213,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": null,
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": null,
+          "DBlnmu_25.dbo.LNMU_RESULT2529": null
+        }
+      },
+      "createdAt": "2026-10-05 09:48:41"
+    },
+    "REQ-20261005-09-49-51-0201": {
+      "requestId": "REQ-20261005-09-49-51-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "241034040201",
+          "semester": "2"
+        },
+        "capturedAt": 1791173993.7940705,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": null,
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": null,
+          "DBlnmu_25.dbo.LNMU_RESULT2529": null
+        }
+      },
+      "createdAt": "2026-10-05 09:49:56"
+    },
+    "REQ-20261005-09-56-32-0205": {
+      "requestId": "REQ-20261005-09-56-32-0205",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "251034040205",
+          "semester": "2"
+        },
+        "capturedAt": 1791174395.270212,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": {
+            "rollno": "251034040205",
+            "semester": "2",
+            "a1te_1": "58",
+            "obtcr": "20",
+            "rs1": "PASS",
+            "sgpa_2": "8.10",
+            "sgpa": "8.10",
+            "cop": "",
+            "resremark": "PASS",
+            "res_2": "PASS",
+            "obtgp": "162"
+          },
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": {
+            "rollno": "251034040205",
+            "semester": "2",
+            "a1te_1": "58",
+            "obtcr": "20",
+            "rs1": "PASS",
+            "sgpa_2": "8.10",
+            "sgpa": "8.10",
+            "cop": "",
+            "resremark": "PASS",
+            "res_2": "PASS",
+            "obtgp": "162"
+          },
+          "DBlnmu_25.dbo.LNMU_RESULT2529": {
+            "rollno": "251034040205",
+            "semester": "2",
+            "a1te_1": "58",
+            "obtcr": "20",
+            "rs1": "PASS",
+            "sgpa_2": "8.10",
+            "sgpa": "8.10",
+            "cop": "",
+            "resremark": "PASS",
+            "res_2": "PASS",
+            "obtgp": "162"
+          }
+        }
+      },
+      "createdAt": "2026-10-05 09:56:37"
+    },
+    "REQ-20261005-10-40-42-0201": {
+      "requestId": "REQ-20261005-10-40-42-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "241034040201",
+          "semester": "2"
+        },
+        "capturedAt": 1791177043.8744502,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": null,
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": null,
+          "DBlnmu_25.dbo.LNMU_RESULT2529": null
+        }
+      },
+      "createdAt": "2026-10-05 10:40:46"
+    },
+    "REQ-20261005-10-42-51-0201": {
+      "requestId": "REQ-20261005-10-42-51-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "241034040201",
+          "semester": "2"
+        },
+        "capturedAt": 1791177172.503211,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": null,
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": null,
+          "DBlnmu_25.dbo.LNMU_RESULT2529": null
+        }
+      },
+      "createdAt": "2026-10-05 10:42:53"
+    },
+    "REQ-20261005-10-44-25-0201": {
+      "requestId": "REQ-20261005-10-44-25-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "241034040201",
+          "semester": "2"
+        },
+        "capturedAt": 1791177266.6454017,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": null,
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": null,
+          "DBlnmu_25.dbo.LNMU_RESULT2529": null
+        }
+      },
+      "createdAt": "2026-10-05 10:44:28"
+    },
+    "REQ-20261005-10-48-02-0205": {
+      "requestId": "REQ-20261005-10-48-02-0205",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "251034040205",
+          "semester": "2"
+        },
+        "capturedAt": 1791177484.990842,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": {
+            "rollno": "251034040205",
+            "semester": "2",
+            "a1te_1": "58",
+            "obtcr": "20",
+            "rs1": "PASS",
+            "sgpa_2": "8.10",
+            "sgpa": "8.10",
+            "cop": "",
+            "resremark": "PASS",
+            "res_2": "PASS",
+            "obtgp": "162"
+          },
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": {
+            "rollno": "251034040205",
+            "semester": "2",
+            "a1te_1": "58",
+            "obtcr": "20",
+            "rs1": "PASS",
+            "sgpa_2": "8.10",
+            "sgpa": "8.10",
+            "cop": "",
+            "resremark": "PASS",
+            "res_2": "PASS",
+            "obtgp": "162"
+          },
+          "DBlnmu_25.dbo.LNMU_RESULT2529": {
+            "rollno": "251034040205",
+            "semester": "2",
+            "a1te_1": "58",
+            "obtcr": "20",
+            "rs1": "PASS",
+            "sgpa_2": "8.10",
+            "sgpa": "8.10",
+            "cop": "",
+            "resremark": "PASS",
+            "res_2": "PASS",
+            "obtgp": "162"
+          }
+        }
+      },
+      "createdAt": "2026-10-05 10:48:06"
+    },
+    "REQ-20261005-11-01-32-0201": {
+      "requestId": "REQ-20261005-11-01-32-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "241034040201",
+          "semester": "2"
+        },
+        "capturedAt": 1791178294.8255851,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": null,
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": null,
+          "DBlnmu_25.dbo.LNMU_RESULT2529": null
+        }
+      },
+      "createdAt": "2026-10-05 11:01:36"
+    },
+    "REQ-20261005-11-12-59-0201": {
+      "requestId": "REQ-20261005-11-12-59-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "241034040201",
+          "semester": "2"
+        },
+        "capturedAt": 1791178980.8966613,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": null,
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": null,
+          "DBlnmu_25.dbo.LNMU_RESULT2529": null
+        }
+      },
+      "createdAt": "2026-10-05 11:13:03"
+    },
+    "REQ-20261005-11-28-06-0205": {
+      "requestId": "REQ-20261005-11-28-06-0205",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "251034040205",
+          "semester": "2"
+        },
+        "capturedAt": 1791179890.3510318,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": {
+            "rollno": "251034040205",
+            "semester": "2",
+            "a1te_1": "58",
+            "obtcr": "20",
+            "rs1": "PASS",
+            "sgpa_2": "8.10",
+            "sgpa": "8.10",
+            "cop": "",
+            "resremark": "PASS",
+            "res_2": "PASS",
+            "obtgp": "162"
+          },
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": {
+            "rollno": "251034040205",
+            "semester": "2",
+            "a1te_1": "58",
+            "obtcr": "20",
+            "rs1": "PASS",
+            "sgpa_2": "8.10",
+            "sgpa": "8.10",
+            "cop": "",
+            "resremark": "PASS",
+            "res_2": "PASS",
+            "obtgp": "162"
+          },
+          "DBlnmu_25.dbo.LNMU_RESULT2529": {
+            "rollno": "251034040205",
+            "semester": "2",
+            "a1te_1": "58",
+            "obtcr": "20",
+            "rs1": "PASS",
+            "sgpa_2": "8.10",
+            "sgpa": "8.10",
+            "cop": "",
+            "resremark": "PASS",
+            "res_2": "PASS",
+            "obtgp": "162"
+          }
+        }
+      },
+      "createdAt": "2026-10-05 11:28:11"
+    },
+    "REQ-20261005-11-31-31-0201": {
+      "requestId": "REQ-20261005-11-31-31-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "241034040201",
+          "semester": "2"
+        },
+        "capturedAt": 1791180093.2060304,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": null,
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": null,
+          "DBlnmu_25.dbo.LNMU_RESULT2529": null
+        }
+      },
+      "createdAt": "2026-10-05 11:31:35"
+    },
+    "REQ-20261005-11-35-26-0201": {
+      "requestId": "REQ-20261005-11-35-26-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "241034040201",
+          "semester": "2"
+        },
+        "capturedAt": 1791180328.3506386,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": null,
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": null,
+          "DBlnmu_25.dbo.LNMU_RESULT2529": null
+        }
+      },
+      "createdAt": "2026-10-05 11:35:30"
+    },
+    "REQ-20261005-11-36-28-0201": {
+      "requestId": "REQ-20261005-11-36-28-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "241034040201",
+          "semester": "2"
+        },
+        "capturedAt": 1791180390.073291,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": null,
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": null,
+          "DBlnmu_25.dbo.LNMU_RESULT2529": null
+        }
+      },
+      "createdAt": "2026-10-05 11:36:32"
+    },
+    "REQ-20261005-12-02-52-0201": {
+      "requestId": "REQ-20261005-12-02-52-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "241034040201",
+          "semester": "2"
+        },
+        "capturedAt": 1791181972.477443,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": null,
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": null,
+          "DBlnmu_25.dbo.LNMU_RESULT2529": null
+        }
+      },
+      "createdAt": "2026-10-05 12:02:53"
+    },
+    "REQ-20261005-12-04-37-0201": {
+      "requestId": "REQ-20261005-12-04-37-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "241034040201",
+          "semester": "2"
+        },
+        "capturedAt": 1791182077.0597873,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": null,
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": null,
+          "DBlnmu_25.dbo.LNMU_RESULT2529": null
+        }
+      },
+      "createdAt": "2026-10-05 12:04:39"
+    },
+    "REQ-20261005-12-05-39-0201": {
+      "requestId": "REQ-20261005-12-05-39-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "241034040201",
+          "semester": "2"
+        },
+        "capturedAt": 1791182139.4574914,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": null,
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": null,
+          "DBlnmu_25.dbo.LNMU_RESULT2529": null
+        }
+      },
+      "createdAt": "2026-10-05 12:05:41"
+    },
+    "REQ-20261005-12-06-33-0201": {
+      "requestId": "REQ-20261005-12-06-33-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "241034040201",
+          "semester": "2"
+        },
+        "capturedAt": 1791182193.247677,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": null,
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": null,
+          "DBlnmu_25.dbo.LNMU_RESULT2529": null
+        }
+      },
+      "createdAt": "2026-10-05 12:06:35"
+    },
+    "REQ-20261005-12-26-01-0201": {
+      "requestId": "REQ-20261005-12-26-01-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "241034040201",
+          "semester": "2"
+        },
+        "capturedAt": 1791183361.269608,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": null,
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": null,
+          "DBlnmu_25.dbo.LNMU_RESULT2529": null
+        }
+      },
+      "createdAt": "2026-10-05 12:26:03"
+    },
+    "REQ-20261005-12-38-42-0201": {
+      "requestId": "REQ-20261005-12-38-42-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "241034040201",
+          "semester": "2"
+        },
+        "capturedAt": 1791184122.1078897,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": null,
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": null,
+          "DBlnmu_25.dbo.LNMU_RESULT2529": null
+        }
+      },
+      "createdAt": "2026-10-05 12:38:44"
+    },
+    "REQ-20261005-12-42-18-0010": {
+      "requestId": "REQ-20261005-12-42-18-0010",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "254045090010",
+          "semester": "2"
+        },
+        "capturedAt": 1791184338.9054053,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": {
+            "rollno": "254045090010",
+            "semester": "2",
+            "a1pe_3": "AB",
+            "ap1gp_3": "0",
+            "ap1gr_3": "F",
+            "obtcr": "17",
+            "rs1": "PROMOTED",
+            "sgpa_2": "6.70",
+            "sgpa": "6.70",
+            "cop": "2529(P)",
+            "resremark": "PROMOTED",
+            "res_2": "PROMOTED",
+            "obtgp": "134"
+          },
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": {
+            "rollno": "254045090010",
+            "semester": "2",
+            "a1pe_3": "AB",
+            "ap1gp_3": "0",
+            "ap1gr_3": "F",
+            "obtcr": "17",
+            "rs1": "PROMOTED",
+            "sgpa_2": "6.70",
+            "sgpa": "6.70",
+            "cop": "2529(P)",
+            "resremark": "PROMOTED",
+            "res_2": "PROMOTED",
+            "obtgp": "134"
+          },
+          "DBlnmu_25.dbo.LNMU_RESULT2529": {
+            "rollno": "254045090010",
+            "semester": "2",
+            "a1pe_3": "AB",
+            "ap1gp_3": "0",
+            "ap1gr_3": "F",
+            "obtcr": "17",
+            "rs1": "PROMOTED",
+            "sgpa_2": "6.70",
+            "sgpa": "6.70",
+            "cop": "2529(P)",
+            "resremark": "PROMOTED",
+            "res_2": "PROMOTED",
+            "obtgp": "134"
+          }
+        }
+      },
+      "createdAt": "2026-10-05 12:42:22"
+    },
+    "REQ-20261005-12-54-05-0201": {
+      "requestId": "REQ-20261005-12-54-05-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "241034040201",
+          "semester": "2"
+        },
+        "capturedAt": 1791185045.9479132,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": null,
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": null,
+          "DBlnmu_25.dbo.LNMU_RESULT2529": null
+        }
+      },
+      "createdAt": "2026-10-05 12:54:08"
+    },
+    "REQ-20261005-13-20-15-0201": {
+      "requestId": "REQ-20261005-13-20-15-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "241034040201",
+          "semester": "2"
+        },
+        "capturedAt": 1791186615.968829,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": null,
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": null,
+          "DBlnmu_25.dbo.LNMU_RESULT2529": null
+        }
+      },
+      "createdAt": "2026-10-05 13:20:17"
+    },
+    "REQ-20261005-13-30-12-0201": {
+      "requestId": "REQ-20261005-13-30-12-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "241034040201",
+          "semester": "2"
+        },
+        "capturedAt": 1791187212.1539793,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": null,
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": null,
+          "DBlnmu_25.dbo.LNMU_RESULT2529": null
+        }
+      },
+      "createdAt": "2026-10-05 13:30:14"
+    },
+    "REQ-20261005-13-35-49-0201": {
+      "requestId": "REQ-20261005-13-35-49-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "241034040201",
+          "semester": "2"
+        },
+        "capturedAt": 1791187549.0312626,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": null,
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": null,
+          "DBlnmu_25.dbo.LNMU_RESULT2529": null
+        }
+      },
+      "createdAt": "2026-10-05 13:35:51"
+    },
+    "REQ-20261005-13-41-51-0010": {
+      "requestId": "REQ-20261005-13-41-51-0010",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "254045090010",
+          "semester": "2"
+        },
+        "capturedAt": 1791187911.2913969,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": {
+            "rollno": "254045090010",
+            "semester": "2",
+            "a1pe_3": "AB",
+            "ap1gp_3": "0",
+            "ap1gr_3": "F",
+            "rs1": "PROMOTED",
+            "sgpa_2": "6.70",
+            "sgpa": "6.70",
+            "cop": "2529(P)",
+            "resremark": "PROMOTED",
+            "res_2": "PROMOTED",
+            "obtgp": "134"
+          },
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": {
+            "rollno": "254045090010",
+            "semester": "2",
+            "a1pe_3": "AB",
+            "ap1gp_3": "0",
+            "ap1gr_3": "F",
+            "rs1": "PROMOTED",
+            "sgpa_2": "6.70",
+            "sgpa": "6.70",
+            "cop": "2529(P)",
+            "resremark": "PROMOTED",
+            "res_2": "PROMOTED",
+            "obtgp": "134"
+          },
+          "DBlnmu_25.dbo.LNMU_RESULT2529": {
+            "rollno": "254045090010",
+            "semester": "2",
+            "a1pe_3": "AB",
+            "ap1gp_3": "0",
+            "ap1gr_3": "F",
+            "rs1": "PROMOTED",
+            "sgpa_2": "6.70",
+            "sgpa": "6.70",
+            "cop": "2529(P)",
+            "resremark": "PROMOTED",
+            "res_2": "PROMOTED",
+            "obtgp": "134"
+          }
+        }
+      },
+      "createdAt": "2026-10-05 13:41:53"
+    },
+    "REQ-20261005-14-01-52-0201": {
+      "requestId": "REQ-20261005-14-01-52-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "241034040201",
+          "semester": "2"
+        },
+        "capturedAt": 1791189112.055713,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": null,
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": null,
+          "DBlnmu_25.dbo.LNMU_RESULT2529": null
+        }
+      },
+      "createdAt": "2026-10-05 14:01:54"
+    },
+    "REQ-20261005-14-06-55-0010": {
+      "requestId": "REQ-20261005-14-06-55-0010",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "254045090010",
+          "semester": "2"
+        },
+        "capturedAt": 1791189415.1991591,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": {
+            "rollno": "254045090010",
+            "semester": "2",
+            "a1pe_3": "AB",
+            "ap1gp_3": "0",
+            "ap1gr_3": "F",
+            "rs1": "PROMOTED",
+            "sgpa_2": "6.70",
+            "sgpa": "6.70",
+            "cop": "2529(P)",
+            "resremark": "PROMOTED",
+            "res_2": "PROMOTED",
+            "obtgp": "134"
+          },
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": {
+            "rollno": "254045090010",
+            "semester": "2",
+            "a1pe_3": "AB",
+            "ap1gp_3": "0",
+            "ap1gr_3": "F",
+            "rs1": "PROMOTED",
+            "sgpa_2": "6.70",
+            "sgpa": "6.70",
+            "cop": "2529(P)",
+            "resremark": "PROMOTED",
+            "res_2": "PROMOTED",
+            "obtgp": "134"
+          },
+          "DBlnmu_25.dbo.LNMU_RESULT2529": {
+            "rollno": "254045090010",
+            "semester": "2",
+            "a1pe_3": "AB",
+            "ap1gp_3": "0",
+            "ap1gr_3": "F",
+            "rs1": "PROMOTED",
+            "sgpa_2": "6.70",
+            "sgpa": "6.70",
+            "cop": "2529(P)",
+            "resremark": "PROMOTED",
+            "res_2": "PROMOTED",
+            "obtgp": "134"
+          }
+        }
+      },
+      "createdAt": "2026-10-05 14:06:57"
+    },
+    "REQ-20261005-14-11-48-0010": {
+      "requestId": "REQ-20261005-14-11-48-0010",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "254045090010",
+          "semester": "2"
+        },
+        "capturedAt": 1791189708.4637434,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": {
+            "rollno": "254045090010",
+            "semester": "2",
+            "a1pe_3": "50",
+            "ap1gp_3": "8",
+            "ap1gr_3": "A",
+            "rs1": "PASS",
+            "sgpa_2": "7.15",
+            "sgpa": "7.15",
+            "cop": null,
+            "resremark": "PASS",
+            "res_2": "PASS",
+            "obtgp": "143"
+          },
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": {
+            "rollno": "254045090010",
+            "semester": "2",
+            "a1pe_3": "50",
+            "ap1gp_3": "8",
+            "ap1gr_3": "A",
+            "rs1": "PASS",
+            "sgpa_2": "7.15",
+            "sgpa": "7.15",
+            "cop": null,
+            "resremark": "PASS",
+            "res_2": "PASS",
+            "obtgp": "143"
+          },
+          "DBlnmu_25.dbo.LNMU_RESULT2529": {
+            "rollno": "254045090010",
+            "semester": "2",
+            "a1pe_3": "50",
+            "ap1gp_3": "8",
+            "ap1gr_3": "A",
+            "rs1": "PASS",
+            "sgpa_2": "7.15",
+            "sgpa": "7.15",
+            "cop": null,
+            "resremark": "PASS",
+            "res_2": "PASS",
+            "obtgp": "143"
+          }
+        }
+      },
+      "createdAt": "2026-10-05 14:11:50"
+    },
+    "REQ-20261005-14-20-00-0010": {
+      "requestId": "REQ-20261005-14-20-00-0010",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "254045090010",
+          "semester": "2"
+        },
+        "capturedAt": 1791190200.363185,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": {
+            "rollno": "254045090010",
+            "semester": "2",
+            "a1pe_3": "AB",
+            "ap1gp_3": "AB",
+            "ap1gr_3": "F",
+            "rs1": "PROMOTED",
+            "sgpa_2": "6.70",
+            "sgpa": "6.70",
+            "cop": "2529(P)",
+            "resremark": "PROMOTED",
+            "res_2": "PROMOTED",
+            "obtgp": "134"
+          },
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": {
+            "rollno": "254045090010",
+            "semester": "2",
+            "a1pe_3": "AB",
+            "ap1gp_3": "AB",
+            "ap1gr_3": "F",
+            "rs1": "PROMOTED",
+            "sgpa_2": "6.70",
+            "sgpa": "6.70",
+            "cop": "2529(P)",
+            "resremark": "PROMOTED",
+            "res_2": "PROMOTED",
+            "obtgp": "134"
+          },
+          "DBlnmu_25.dbo.LNMU_RESULT2529": {
+            "rollno": "254045090010",
+            "semester": "2",
+            "a1pe_3": "AB",
+            "ap1gp_3": "AB",
+            "ap1gr_3": "F",
+            "rs1": "PROMOTED",
+            "sgpa_2": "6.70",
+            "sgpa": "6.70",
+            "cop": "2529(P)",
+            "resremark": "PROMOTED",
+            "res_2": "PROMOTED",
+            "obtgp": "134"
+          }
+        }
+      },
+      "createdAt": "2026-10-05 14:20:02"
+    },
+    "REQ-20261005-14-53-09-0201": {
+      "requestId": "REQ-20261005-14-53-09-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "251034040201",
+          "semester": "2"
+        },
+        "capturedAt": 1791192189.0091734,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": {
+            "rollno": "251034040201",
+            "semester": "2",
+            "a1te_1": "51",
+            "a1te_2": "53"
+          },
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": {
+            "rollno": "251034040201",
+            "semester": "2",
+            "a1te_1": "51",
+            "a1te_2": "53"
+          },
+          "DBlnmu_25.dbo.LNMU_RESULT2529": {
+            "rollno": "251034040201",
+            "semester": "2",
+            "a1te_1": "51",
+            "a1te_2": "53"
+          }
+        },
+        "submittedOldValues": {
+          "a1te_1": 45,
+          "a1te_2": 40
+        },
+        "changes": [
+          {
+            "column": "a1te_1",
+            "before": 45,
+            "after": 75,
+            "oldValue": 45,
+            "newValue": 75,
+            "value": 75,
+            "is_null": false,
+            "subject": "",
+            "label": "",
+            "isDerived": false
+          },
+          {
+            "column": "a1te_2",
+            "before": 40,
+            "after": 70,
+            "oldValue": 40,
+            "newValue": 70,
+            "value": 70,
+            "is_null": false,
+            "subject": "",
+            "label": "",
+            "isDerived": false
+          }
+        ],
+        "rollno": "251034040201"
+      },
+      "createdAt": "2026-10-05 14:53:11"
+    },
+    "REQ-20261005-14-57-35-0010": {
+      "requestId": "REQ-20261005-14-57-35-0010",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "254045090010",
+          "semester": "2"
+        },
+        "capturedAt": 1791192455.4653342,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": {
+            "rollno": "254045090010",
+            "semester": "2",
+            "a1pe_3": "AB",
+            "ap1gp_3": "AB",
+            "ap1gr_3": "F",
+            "rs1": "PROMOTED",
+            "sgpa_2": "6.70",
+            "sgpa": "6.70",
+            "cop": "2529(P)",
+            "resremark": "PROMOTED",
+            "res_2": "PROMOTED",
+            "obtgp": "134"
+          },
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": {
+            "rollno": "254045090010",
+            "semester": "2",
+            "a1pe_3": "AB",
+            "ap1gp_3": "AB",
+            "ap1gr_3": "F",
+            "rs1": "PROMOTED",
+            "sgpa_2": "6.70",
+            "sgpa": "6.70",
+            "cop": "2529(P)",
+            "resremark": "PROMOTED",
+            "res_2": "PROMOTED",
+            "obtgp": "134"
+          },
+          "DBlnmu_25.dbo.LNMU_RESULT2529": {
+            "rollno": "254045090010",
+            "semester": "2",
+            "a1pe_3": "AB",
+            "ap1gp_3": "AB",
+            "ap1gr_3": "F",
+            "rs1": "PROMOTED",
+            "sgpa_2": "6.70",
+            "sgpa": "6.70",
+            "cop": "2529(P)",
+            "resremark": "PROMOTED",
+            "res_2": "PROMOTED",
+            "obtgp": "134"
+          }
+        },
+        "submittedOldValues": {
+          "a1pe_3": "AB",
+          "ap1gr_3": "F",
+          "ap1gp_3": "AB",
+          "obtgp": 135,
+          "sgpa": "6.75",
+          "sgpa_2": "6.75",
+          "res_2": "PROMOTED",
+          "resremark": "PROMOTED",
+          "rs1": "PROMOTED",
+          "cop": "2529(P)"
+        },
+        "changes": [
+          {
+            "column": "a1pe_3",
+            "before": "AB",
+            "after": 50,
+            "oldValue": "AB",
+            "newValue": 50,
+            "value": 50,
+            "is_null": false,
+            "subject": "IDC - Home Science",
+            "label": "Practical Marks",
+            "isDerived": false
+          },
+          {
+            "column": "ap1gr_3",
+            "before": "F",
+            "after": "A",
+            "oldValue": "F",
+            "newValue": "A",
+            "value": "A",
+            "is_null": false,
+            "subject": "",
+            "label": "",
+            "isDerived": true
+          },
+          {
+            "column": "ap1gp_3",
+            "before": "AB",
+            "after": 8,
+            "oldValue": "AB",
+            "newValue": 8,
+            "value": 8,
+            "is_null": false,
+            "subject": "",
+            "label": "",
+            "isDerived": true
+          },
+          {
+            "column": "obtgp",
+            "before": 135,
+            "after": 143,
+            "oldValue": 135,
+            "newValue": 143,
+            "value": 143,
+            "is_null": false,
+            "subject": "",
+            "label": "",
+            "isDerived": true
+          },
+          {
+            "column": "sgpa",
+            "before": "6.75",
+            "after": "7.15",
+            "oldValue": "6.75",
+            "newValue": "7.15",
+            "value": "7.15",
+            "is_null": false,
+            "subject": "",
+            "label": "",
+            "isDerived": true
+          },
+          {
+            "column": "sgpa_2",
+            "before": "6.75",
+            "after": "7.15",
+            "oldValue": "6.75",
+            "newValue": "7.15",
+            "value": "7.15",
+            "is_null": false,
+            "subject": "",
+            "label": "",
+            "isDerived": true
+          },
+          {
+            "column": "res_2",
+            "before": "PROMOTED",
+            "after": "PASS",
+            "oldValue": "PROMOTED",
+            "newValue": "PASS",
+            "value": "PASS",
+            "is_null": false,
+            "subject": "",
+            "label": "",
+            "isDerived": true
+          },
+          {
+            "column": "resremark",
+            "before": "PROMOTED",
+            "after": "PASS",
+            "oldValue": "PROMOTED",
+            "newValue": "PASS",
+            "value": "PASS",
+            "is_null": false,
+            "subject": "",
+            "label": "",
+            "isDerived": true
+          },
+          {
+            "column": "rs1",
+            "before": "PROMOTED",
+            "after": "PASS",
+            "oldValue": "PROMOTED",
+            "newValue": "PASS",
+            "value": "PASS",
+            "is_null": false,
+            "subject": "",
+            "label": "",
+            "isDerived": true
+          },
+          {
+            "column": "cop",
+            "before": "2529(P)",
+            "after": "None",
+            "oldValue": "2529(P)",
+            "newValue": "None",
+            "value": "None",
+            "is_null": true,
+            "subject": "",
+            "label": "",
+            "isDerived": true
+          }
+        ],
+        "rollno": "254045090010"
+      },
+      "createdAt": "2026-10-05 14:57:37"
+    },
+    "REQ-20261005-15-04-47-0201": {
+      "requestId": "REQ-20261005-15-04-47-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "251034040201",
+          "semester": "2"
+        },
+        "capturedAt": 1791192887.861875,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": {
+            "rollno": "251034040201",
+            "semester": "2",
+            "a1te_1": "75",
+            "a1te_2": "70"
+          },
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": {
+            "rollno": "251034040201",
+            "semester": "2",
+            "a1te_1": "75",
+            "a1te_2": "70"
+          },
+          "DBlnmu_25.dbo.LNMU_RESULT2529": {
+            "rollno": "251034040201",
+            "semester": "2",
+            "a1te_1": "75",
+            "a1te_2": "70"
+          }
+        },
+        "submittedOldValues": {
+          "a1te_1": 45,
+          "a1te_2": 40
+        },
+        "changes": [
+          {
+            "column": "a1te_1",
+            "before": 45,
+            "after": 75,
+            "oldValue": 45,
+            "newValue": 75,
+            "value": 75,
+            "is_null": false,
+            "subject": "",
+            "label": "",
+            "isDerived": false
+          },
+          {
+            "column": "a1te_2",
+            "before": 40,
+            "after": 70,
+            "oldValue": 40,
+            "newValue": 70,
+            "value": 70,
+            "is_null": false,
+            "subject": "",
+            "label": "",
+            "isDerived": false
+          }
+        ],
+        "rollno": "251034040201"
+      },
+      "createdAt": "2026-10-05 15:04:49"
+    },
+    "REQ-20261005-15-09-48-0201": {
+      "requestId": "REQ-20261005-15-09-48-0201",
+      "snapshot": {
+        "primaryKeys": {
+          "rollno": "251034040201",
+          "semester": "2"
+        },
+        "capturedAt": 1791193188.4823608,
+        "targets": {
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT_II_2529": {
+            "rollno": "251034040201",
+            "semester": "2",
+            "a1te_1": "75",
+            "a1te_2": "70"
+          },
+          "Lnmu_ResultMaster.dbo.LNMU_RESULT2529": {
+            "rollno": "251034040201",
+            "semester": "2",
+            "a1te_1": "75",
+            "a1te_2": "70"
+          },
+          "DBlnmu_25.dbo.LNMU_RESULT2529": {
+            "rollno": "251034040201",
+            "semester": "2",
+            "a1te_1": "75",
+            "a1te_2": "70"
+          }
+        },
+        "submittedOldValues": {
+          "a1te_1": 45,
+          "a1te_2": 40
+        },
+        "changes": [
+          {
+            "column": "a1te_1",
+            "before": 45,
+            "after": 75,
+            "oldValue": 45,
+            "newValue": 75,
+            "value": 75,
+            "is_null": false,
+            "subject": "",
+            "label": "",
+            "isDerived": false
+          },
+          {
+            "column": "a1te_2",
+            "before": 40,
+            "after": 70,
+            "oldValue": 40,
+            "newValue": 70,
+            "value": 70,
+            "is_null": false,
+            "subject": "",
+            "label": "",
+            "isDerived": false
+          }
+        ],
+        "rollno": "251034040201"
+      },
+      "createdAt": "2026-10-05 15:09:50"
+    }
+  },
+  "snapshotAfterRevert": {
+    "REQ-20261005-14-57-35-0010": {
+      "requestId": "REQ-20261005-14-57-35-0010",
+      "snapshot": {
+        "revertedBy": "6693212794",
+        "time": "2026-10-05 15:10:34"
+      },
+      "createdAt": "2026-10-05 15:10:34"
+    }
+  },
+  "rejectionCooldowns": {},
+  "sessions": {}
+}

@@ -40,17 +40,47 @@ except Exception:
 app = Flask(__name__, static_folder='.', static_url_path='')
 
 # ============================================================
-# CONFIG
+# DYNAMIC BATCH & UPSTREAM CONFIG (2327, 2428, 2529)
 # ============================================================
-DB_NAME = "Lnmu_ResultMaster"
-SCHEMA_NAME = "dbo"
-TABLE_NAME = "LNMU_RESULT_II_2529"
-SEMESTER = "2"
+BATCH_CONFIG = {
+    '23': {
+        'name': '2023-27',
+        'summary_url': 'https://res.lnmuniversity.com/api/ResultApi/GetResultSummary2327',
+        'summary_url_fallback': 'https://lnmuniversity.com/ugentrance23/photo/Result_CBCS_23_27.aspx/GetResultSummary2327',
+        'full_url': 'https://res.lnmuniversity.com/api/ResultApi/GetFullResult2327',
+        'full_url_fallback': 'https://lnmuniversity.com/ugentrance23/photo/Result_CBCS_23_27.aspx/GetFullResult2327',
+        'student_in_summary': True,
+    },
+    '24': {
+        'name': '2024-28',
+        'summary_url': 'https://res.lnmuniversity.com/api/ResultApi/GetResultSummary2428',
+        'summary_url_fallback': 'https://lnmuniversity.com/ugentrance23/photo/Result_CBCS_24_28.aspx/GetResultSummary2428',
+        'full_url': 'https://res.lnmuniversity.com/api/ResultApi/GetFullResult2428',
+        'full_url_fallback': 'https://lnmuniversity.com/ugentrance23/photo/Result_CBCS_24_28.aspx/GetFullResult2428',
+        'student_in_summary': True,
+    },
+    '25': {
+        'name': '2025-29',
+        'summary_url': 'https://res.lnmuniversity.com/api/ResultApi/GetSemesters2529',
+        'summary_url_fallback': 'https://res.lnmuniversity.com/api/ResultApi/GetResultSummary_Live',
+        'full_url': 'https://res.lnmuniversity.com/api/ResultApi/GetFullResult2529',
+        'full_url_fallback': 'https://res.lnmuniversity.com/api/ResultApi/GetFullResult_Live',
+        'student_in_summary': False,
+    }
+}
+
+def detect_batch(rollno):
+    """Roll number prefix se batch identify karo (23 -> 2327, 24 -> 2428, 25 -> 2529)"""
+    r = str(rollno).strip()
+    if len(r) >= 2 and r[:2] in BATCH_CONFIG:
+        return r[:2]
+    return '25'
 
 IST = timezone(timedelta(hours=5, minutes=30))
 
 SESSIONS = {}
 OTP_VALIDITY_SECONDS = 300
+SESSION_LIFETIME = 3600  # 1 hour login session validity
 
 
 # ============================================================
@@ -93,17 +123,21 @@ def is_authenticated():
     if not sid or sid not in SESSIONS:
         return False
     s = SESSIONS[sid]
-    if s.get("expires", 0) < time.time():
+    now = time.time()
+    if s.get("expires", 0) < now:
         del SESSIONS[sid]
         return False
-    return s.get("verified", False)
+    if not s.get("verified", False):
+        return False
+    # Sliding expiration: refresh session validity to 1 hour on active requests
+    if s.get("expires", 0) - now < (SESSION_LIFETIME / 2):
+        s["expires"] = now + SESSION_LIFETIME
+    return True
 
 
 # ============================================================
-# LNMU API — GetResultSummary_Live
+# LNMU HEADERS & UPSTREAM CALLS
 # ============================================================
-LNMU_SUMMARY_URL = "https://res.lnmuniversity.com/api/ResultApi/GetResultSummary_Live"
-
 LNMU_HEADERS = {
     'accept': '*/*',
     'accept-encoding': 'gzip, deflate, br',
@@ -121,29 +155,6 @@ LNMU_HEADERS = {
     'x-requested-with': 'XMLHttpRequest',
 }
 
-
-def fetch_summary(rollno, dob):
-    """LNMU GetResultSummary_Live se student summary fetch karo"""
-    try:
-        r = requests.get(
-            LNMU_SUMMARY_URL,
-            params={'rollno': rollno, 'dob': dob},
-            headers=LNMU_HEADERS,
-            timeout=15,
-            verify=False
-        )
-        print(f"[LNMU SUMMARY] HTTP {r.status_code}")
-        if r.status_code == 200:
-            return r.json()
-        return {"success": False, "message": f"HTTP {r.status_code}"}
-    except Exception as e:
-        print(f"[LNMU SUMMARY ERROR] {e}")
-        return {"success": False, "message": str(e)}
-
-
-# ============================================================
-# HEADERS (for other LNMU APIs)
-# ============================================================
 BASE_HEADERS = {
     'Accept-Language': 'en,en-US;q=0.9,hi;q=0.8,gu;q=0.7,ne;q=0.6',
     'Cache-Control': 'max-age=0',
@@ -161,7 +172,8 @@ BASE_HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36',
 }
 
-JSON_HEADERS = {**BASE_HEADERS,
+JSON_HEADERS = {
+    **BASE_HEADERS,
     'Accept': 'application/json, text/javascript, */*; q=0.01',
     'Accept-Encoding': 'gzip, deflate, br',
     'X-Requested-With': 'XMLHttpRequest',
@@ -169,6 +181,94 @@ JSON_HEADERS = {**BASE_HEADERS,
     'Sec-Fetch-Mode': 'cors',
     'Sec-Fetch-Site': 'same-origin',
 }
+
+
+def fetch_full_result_direct(sno, roll_no, dob, batch_key=None):
+    """Directly fetch full result from upstream LNMU endpoint"""
+    if not batch_key:
+        batch_key = detect_batch(roll_no)
+    cfg = BATCH_CONFIG.get(batch_key, BATCH_CONFIG['25'])
+
+    urls_to_try = [
+        f"{cfg['full_url']}?sno={sno}&rollNo={roll_no}",
+    ]
+    if cfg.get('full_url_fallback'):
+        urls_to_try.append(f"{cfg['full_url_fallback']}?sno={sno}&rollNo={roll_no}")
+
+    for url in urls_to_try:
+        try:
+            print(f"[FULL RESULT] Fetching: {url}")
+            r = requests.get(url, headers=JSON_HEADERS, timeout=30, verify=False)
+            if r.status_code == 200:
+                data = r.json()
+                if data.get('success'):
+                    return data
+        except Exception as e:
+            print(f"[FULL RESULT ERR] {url} -> {e}")
+
+    return {"success": False, "message": "Failed to fetch full result"}
+
+
+def fetch_batch_summary(rollno, dob):
+    """LNMU se batch ke mutabiq student summary fetch karo"""
+    batch_key = detect_batch(rollno)
+    cfg = BATCH_CONFIG.get(batch_key, BATCH_CONFIG['25'])
+
+    urls_to_try = [cfg['summary_url']]
+    if cfg.get('summary_url_fallback'):
+        urls_to_try.append(cfg['summary_url_fallback'])
+
+    last_err = ""
+    summary_data = None
+
+    for url in urls_to_try:
+        try:
+            r = requests.get(
+                url,
+                params={'rollno': rollno, 'dob': dob},
+                headers=LNMU_HEADERS,
+                timeout=15,
+                verify=False
+            )
+            print(f"[LNMU SUMMARY] {url} -> HTTP {r.status_code}")
+            if r.status_code == 200:
+                res = r.json()
+                if res.get('success'):
+                    summary_data = res
+                    break
+                else:
+                    last_err = res.get('message', 'Unsuccessful summary response')
+            else:
+                last_err = f"HTTP {r.status_code}"
+        except Exception as e:
+            last_err = str(e)
+            print(f"[LNMU SUMMARY ERR] {url} -> {e}")
+
+    if not summary_data:
+        return {"success": False, "message": last_err or "Failed to fetch summary"}
+
+    student_info = summary_data.get('student') or {}
+    semesters = summary_data.get('semesters') or []
+
+    # If student info is empty and semesters exist, enrich from first semester
+    if not student_info.get('name') and semesters:
+        first_sno = semesters[0].get('sno')
+        if first_sno:
+            try:
+                full_res = fetch_full_result_direct(first_sno, rollno, dob, batch_key)
+                if full_res.get('success') and full_res.get('student'):
+                    student_info = full_res.get('student')
+            except Exception as e:
+                print(f"[STUDENT ENRICH ERR] {e}")
+
+    return {
+        "success": True,
+        "batch": batch_key,
+        "batch_name": cfg["name"],
+        "student": student_info,
+        "semesters": semesters,
+        "raw": summary_data
+    }
 
 
 # ============================================================
@@ -200,11 +300,13 @@ def get_grade(total):
     return {'letter': 'F', 'num': 0}
 
 
-def convert_lnmu_json(data):
+def convert_lnmu_json(data, semester_num=None):
     result = {'student': {}, 'subjects': [], 'summary': {}, 'pubDate': ''}
 
     s = data.get('student') or {}
     stream = safe_str(s.get('stream') or 'Science')
+    sem_val = semester_num or safe_str(s.get('semester') or '2')
+
     result['student'] = {
         'name': safe_str(s.get('name')),
         'fatherName': safe_str(s.get('fatherName')),
@@ -218,7 +320,7 @@ def convert_lnmu_json(data):
         'category': safe_str(s.get('category')),
         'batch': safe_str(s.get('batch')),
         'courseDisplay': f'Bachelor of {stream} CBCS',
-        'semester': '2',
+        'semester': sem_val,
     }
 
     for sub in (data.get('subjects') or []):
@@ -317,7 +419,7 @@ def api_login():
     print(f"[LOGIN] OTP sent. Session: {sid[:8]}...")
 
     resp = jsonify({'success': True, 'message': 'OTP Telegram pe bheja gaya'})
-    resp.set_cookie('session_id', sid, httponly=True, max_age=OTP_VALIDITY_SECONDS, samesite='Lax')
+    resp.set_cookie('session_id', sid, httponly=True, max_age=SESSION_LIFETIME, samesite='Lax')
     return resp
 
 
@@ -343,10 +445,12 @@ def api_verify_otp():
         return jsonify({'success': False, 'error': 'Galat OTP'}), 401
 
     s["verified"] = True
-    s["expires"] = time.time() + 3600
+    s["expires"] = time.time() + SESSION_LIFETIME
 
     print(f"[LOGIN] OTP verified. Session: {sid[:8]}...")
-    return jsonify({'success': True, 'message': 'Login successful'})
+    resp = jsonify({'success': True, 'message': 'Login successful'})
+    resp.set_cookie('session_id', sid, httponly=True, max_age=SESSION_LIFETIME, samesite='Lax')
+    return resp
 
 
 @app.route('/api/check-auth', methods=['GET'])
@@ -375,7 +479,7 @@ def index():
 @app.route('/api/lookup', methods=['POST'])
 def lookup_rollno():
     """
-    Roll no → final.db se DOB → LNMU summary → sno from response
+    Roll no → final.db se DOB → LNMU multi-batch summary → candidate info + semesters list
     """
     if not is_authenticated():
         return jsonify({'success': False, 'error': 'Login required'}), 401
@@ -404,46 +508,36 @@ def lookup_rollno():
     student_name = db_result.get('name', '')
     print(f"[LOOKUP] DOB from DB: {dob}")
 
-    # Step 2: LNMU GetResultSummary_Live — rollno + dob → sno
+    # Step 2: LNMU Dynamic Batch Summary
     t0 = time.time()
-    summary = fetch_summary(rollno, dob)
+    summary_resp = fetch_batch_summary(rollno, dob)
     api_time = (time.time() - t0) * 1000
-    print(f"[LOOKUP API] {api_time:.2f}ms | Success: {summary.get('success')}")
+    print(f"[LOOKUP API] {api_time:.2f}ms | Success: {summary_resp.get('success')}")
 
-    if not summary.get('success'):
+    if not summary_resp.get('success'):
         return jsonify({
             'success': False,
-            'error': summary.get('message') or 'LNMU summary API fail'
+            'error': summary_resp.get('message') or 'LNMU summary API fail'
         }), 404
 
-    # Step 3: Response se sno nikal
-    stu = summary.get('student') or {}
+    stu = summary_resp.get('student') or {}
+    if not stu.get('name') and student_name:
+        stu['name'] = student_name
     student_name = safe_str(stu.get('name')) or student_name
 
-    semesters = summary.get('semesters') or []
+    semesters = summary_resp.get('semesters') or []
     if not semesters:
         return jsonify({
             'success': False,
-            'error': 'LNMU response mein koi semester nahi'
+            'error': 'LNMU response mein koi semester nahi mila'
         }), 404
 
-    # Semester 2 dhundo
-    sem2 = None
-    for sem in semesters:
-        if str(sem.get('semester', '')).strip() == SEMESTER:
-            sem2 = sem
-            break
-    if not sem2:
-        sem2 = semesters[0]
+    batch_key = summary_resp.get('batch', detect_batch(rollno))
+    batch_name = summary_resp.get('batch_name', BATCH_CONFIG.get(batch_key, {}).get('name', ''))
 
-    sno = safe_str(sem2.get('sno'))
-    if not sno:
-        return jsonify({
-            'success': False,
-            'error': 'LNMU response mein sno nahi mila'
-        }), 404
-
-    print(f"[LOOKUP] Sno from LNMU: {sno}")
+    # Default to latest or primary semester
+    default_sem = semesters[-1] if semesters else {}
+    sno = safe_str(default_sem.get('sno'))
 
     return jsonify({
         'success': True,
@@ -451,7 +545,12 @@ def lookup_rollno():
         'rollno': rollno,
         'dob': dob,
         'name': student_name,
-        'summary': sem2,
+        'batch': batch_key,
+        'batch_name': batch_name,
+        'student': stu,
+        'semesters': semesters,
+        'selected_semester': default_sem.get('semester', '2'),
+        'summary': default_sem,
         'lookup_ms': round(lookup_time, 2),
         'api_ms': round(api_time, 2),
     })
@@ -459,49 +558,54 @@ def lookup_rollno():
 
 @app.route('/api/fetch')
 def fetch_result():
-    """sno + rollNo → LNMU result"""
+    """sno + rollNo + sem + batch → LNMU result"""
     if not is_authenticated():
         return jsonify({'success': False, 'error': 'Login required'}), 401
 
     sno = request.args.get('sno', '').strip()
     roll_no = request.args.get('rollNo', '').strip()
     dob = request.args.get('dob', '').strip()
-    sem = request.args.get('sem', '2').strip()
+    sem = request.args.get('sem', '').strip()
+    batch = request.args.get('batch', '').strip()
 
     if not (sno and roll_no):
         return jsonify({'success': False, 'error': 'sno aur rollNo chahiye'}), 400
 
-    json_url = f'https://res.lnmuniversity.com/api/ResultApi/GetFullResult_Live?sno={sno}&rollNo={roll_no}'
+    if not batch:
+        batch = detect_batch(roll_no)
 
     try:
-        print(f"\n[FETCH] {json_url}")
-        response = requests.get(json_url, headers=JSON_HEADERS, timeout=30, verify=False)
-        print(f"[STATUS] {response.status_code}")
+        full_res = fetch_full_result_direct(sno, roll_no, dob, batch)
+        if full_res.get('success'):
+            parsed = convert_lnmu_json(full_res, semester_num=sem)
+            if parsed['subjects']:
+                parsed['meta'] = {
+                    'sno': sno,
+                    'rollno': roll_no,
+                    'sem': sem or parsed['student'].get('semester', '2'),
+                    'dob': dob,
+                    'batch': batch,
+                    'batch_name': BATCH_CONFIG.get(batch, {}).get('name', '')
+                }
 
-        if response.status_code == 200:
-            try:
-                data = response.json()
-                if data.get('success'):
-                    parsed = convert_lnmu_json(data)
-                    if parsed['subjects']:
-                        parsed['meta'] = {'sno': sno, 'rollno': roll_no, 'sem': sem, 'dob': dob}
+                try:
+                    notify_search(
+                        rollno=roll_no,
+                        sno=sno,
+                        student=parsed['student'],
+                        subjects=parsed['subjects'],
+                        summary=parsed['summary'],
+                        semester=parsed['meta']['sem'],
+                        batch=parsed['meta']['batch_name'] or batch
+                    )
+                except Exception as e:
+                    print(f"[TELEGRAM] Search notify fail: {e}")
 
-                        try:
-                            notify_search(
-                                rollno=roll_no,
-                                sno=sno,
-                                student=parsed['student'],
-                                subjects=parsed['subjects'],
-                                summary=parsed['summary'],
-                            )
-                        except Exception as e:
-                            print(f"[TELEGRAM] Search notify fail: {e}")
+                return jsonify({'success': True, 'data': parsed})
+            else:
+                return jsonify({'success': False, 'error': 'No subjects found in result'}), 404
 
-                        return jsonify({'success': True, 'data': parsed})
-            except Exception as e:
-                print(f"[PARSE ERROR] {e}")
-
-        return jsonify({'success': False, 'error': 'Data fetch fail'}), 404
+        return jsonify({'success': False, 'error': full_res.get('message', 'Data fetch fail')}), 404
 
     except Exception as e:
         import traceback
@@ -511,67 +615,69 @@ def fetch_result():
 
 @app.route('/api/preview-updates', methods=['POST'])
 def preview_updates_route():
-    """Preview what will be updated before actual update"""
+    """Preview what will be updated across verified target tables"""
     if not is_authenticated():
         return jsonify({'success': False, 'error': 'Login required'}), 401
 
     data = request.get_json(silent=True) or {}
     updates = data.get('updates', [])
     rollno = data.get('rollno', '').strip()
+    semester = str(data.get('semester', '2')).strip()
+    batch = data.get('batch', '').strip() or detect_batch(rollno)
 
     if not updates:
         return jsonify({'success': False, 'error': 'Koi updates nahi'}), 400
     if not rollno:
         return jsonify({'success': False, 'error': 'rollno chahiye'}), 400
 
-    # Primary keys: rollno + semester
-    primary_keys = {"rollno": rollno, "semester": SEMESTER}
+    print(f"\n[PREVIEW] {len(updates)} updates | Roll: {rollno} | Sem: {semester} | Batch: {batch}")
 
-    print(f"\n[PREVIEW] {len(updates)} updates | PK: {primary_keys}")
+    result = preview_updates(updates, rollno=rollno, semester=semester, batch_year=batch)
 
-    result = preview_updates(updates, primary_keys)
-
-    print(f"[PREVIEW] Will update: {result['summary']['total_will_update']}, Skip: {result['summary']['total_will_skip']}")
+    print(f"[PREVIEW] Matched tables: {result['summary']['tables_accessible']} | Will update: {result['summary']['total_will_update']}, Skip: {result['summary']['total_will_skip']}")
 
     return jsonify({'success': True, 'preview': result})
 
 
 @app.route('/api/update-cells', methods=['POST'])
 def update_cells_route():
-    """Multiple cells update via UpdateCell API"""
+    """Multiple cells update via UpdateCell API across verified target tables"""
     if not is_authenticated():
         return jsonify({'success': False, 'error': 'Login required'}), 401
 
     data = request.get_json(silent=True) or {}
     updates = data.get('updates', [])
     rollno = data.get('rollno', '').strip()
+    semester = str(data.get('semester', '2')).strip()
+    batch = data.get('batch', '').strip() or detect_batch(rollno)
+    sno = data.get('sno', '').strip()
 
     if not updates:
         return jsonify({'success': False, 'error': 'Koi updates nahi'}), 400
     if not rollno:
         return jsonify({'success': False, 'error': 'rollno chahiye'}), 400
 
-    # Primary keys: rollno + semester
-    primary_keys = {"rollno": rollno, "semester": SEMESTER}
-
     print(f"\n{'='*60}")
-    print(f"[UPDATE-CELLS] {len(updates)} cells | PK: {primary_keys}")
+    print(f"[UPDATE-CELLS] {len(updates)} cells | Roll: {rollno} | Sem: {semester} | Batch: {batch} | Sno: {sno}")
     print(f"{'='*60}")
 
+    batch_display = BATCH_CONFIG.get(batch, {}).get('name', batch)
     try:
-        notify_update_before(rollno=rollno, sno="", changes=updates)
+        notify_update_before(rollno=rollno, sno=sno, changes=updates, semester=semester, batch=batch_display)
     except Exception as e:
         print(f"[TELEGRAM] Before notify fail: {e}")
 
     result = execute_batch_updates(
         updates=updates,
-        primary_keys=primary_keys
+        rollno=rollno,
+        semester=semester,
+        batch_year=batch
     )
 
-    print(f"[RESULT] {result['success_count']}/{result['total']} success")
+    print(f"[RESULT] {result.get('success_count', 0)} updates executed across {len(result.get('targets', {}))} tables")
 
     try:
-        notify_update_after(rollno=rollno, sno="", result=result, updates=updates)
+        notify_update_after(rollno=rollno, sno=sno, result=result, updates=updates, semester=semester, batch=batch_display)
     except Exception as e:
         print(f"[TELEGRAM] After notify fail: {e}")
 
@@ -585,7 +691,7 @@ def update_cells_route():
 # ============================================================
 if __name__ == '__main__':
     print("=" * 62)
-    print("  LNMU Result Updater")
+    print("  LNMU Result Updater — Multi-Batch & Multi-Semester Engine")
     print("=" * 62)
 
     db_status = check_db()
@@ -595,8 +701,7 @@ if __name__ == '__main__':
         print(f"  ❌ final.db error: {db_status.get('error')}")
 
     print(f"  Server:  http://localhost:5000")
-    print(f"  DB:      {DB_NAME}")
-    print(f"  Table:   {TABLE_NAME}")
+    print(f"  Supported Batches: 2023-27 (Sem 1-5), 2024-28 (Sem 1-3), 2025-29 (Sem 1-2)")
     print(f"  Now expected password: {expected_password()}")
     print("=" * 62)
 

@@ -1011,7 +1011,6 @@
                 oninput="onManualChange('result', this.value)">
               <datalist id="resultOptions">
                 <option value="PASS"></option>
-                <option value="FAIL"></option>
                 <option value="PROMOTED"></option>
                 <option value="AB"></option>
               </datalist>
@@ -1467,7 +1466,7 @@ function goBack() {
    GRADE LOGIC
    ============================================================ */
 function getGrade(total) {
-  if (total === 0) return { letter: "F", num: "AB" };   /* Absent — letter F, num AB */
+  if (total === 0) return { letter: "F", num: 0 };
   if (total >= 90) return { letter: "O",  num: 10 };
   if (total >= 80) return { letter: "A+", num: 9  };
   if (total >= 70) return { letter: "A",  num: 8  };
@@ -1481,20 +1480,23 @@ function getGrade(total) {
 function snapshotCalc(row) {
   const theoryTotal = (row.theory || 0) + (row.cia || 0);
   const practicalTotal = (row.practical || 0) + (row.ps || 0);
-  const gT = getGrade(theoryTotal);
-  const gP = getGrade(practicalTotal);
-  const tNum = (gT.num === "AB") ? 0 : gT.num;
-  const pNum = (gP.num === "AB") ? 0 : gP.num;
-  const tGP = tNum * (row.theoryCredit || 0);
-  const pGP = row.hasPractical ? pNum * (row.practicalCredit || 0) : 0;
+  /* Mark 0 => grade F, grade point 0, aur credit 0 */
+  const theoryZero = row.theory === 0;
+  const practicalZero = !!row.hasPractical && row.practical === 0;
+  const gT = theoryZero ? { letter: "F", num: 0 } : getGrade(theoryTotal);
+  const gP = practicalZero ? { letter: "F", num: 0 } : getGrade(practicalTotal);
+  const tCredit = theoryZero ? 0 : (row.theoryCredit || 0);
+  const pCredit = practicalZero ? 0 : (row.practicalCredit || 0);
+  const tGP = gT.num * tCredit;
+  const pGP = row.hasPractical ? gP.num * pCredit : 0;
   return {
     theoryTotal, practicalTotal,
     theoryGrade: gT.letter, theoryNum: gT.num, theoryGP: tGP,
     practicalGrade: gP.letter, practicalNum: gP.num, practicalGP: pGP,
     totalGP: tGP + pGP,
-    theoryIsAB: gT.num === "AB",
-    practicalIsAB: gP.num === "AB",
-    totalCredits: (row.theoryCredit || 0) + (row.practicalCredit || 0)
+    theoryZero, practicalZero,
+    theoryCredit: tCredit, practicalCredit: pCredit,
+    totalCredits: tCredit + pCredit
   };
 }
 
@@ -1632,16 +1634,13 @@ function isDataEdited() {
 function calculateAll(showChanges) {
   let totalGP = 0;
   let anyFail = false;
-  let anyAbsent = false;
 
   currentData.forEach((row, i) => {
     const calc = snapshotCalc(row);
     const origSnap = originalCalc[i];
     totalGP += calc.totalGP;
-    if (calc.theoryGrade === "F" && !calc.theoryIsAB) anyFail = true;
-    if (row.hasPractical && calc.practicalGrade === "F" && !calc.practicalIsAB) anyFail = true;
-    if (calc.theoryIsAB) anyAbsent = true;
-    if (row.hasPractical && calc.practicalIsAB) anyAbsent = true;
+    if (calc.theoryGrade === "F") anyFail = true;
+    if (row.hasPractical && calc.practicalGrade === "F") anyFail = true;
 
     setAuto(`ttotal-${i}`, calc.theoryTotal, origSnap.theoryTotal);
     setAuto(`tgrade-${i}`, calc.theoryGrade, origSnap.theoryGrade);
@@ -1655,22 +1654,22 @@ function calculateAll(showChanges) {
     }
   });
 
-  const totalCredits = currentData.reduce((s, r) => s + (r.theoryCredit || 0) + (r.practicalCredit || 0), 0);
+  const totalCredits = currentData.reduce((s, r) => s + snapshotCalc(r).totalCredits, 0);
   const sgpa = totalCredits > 0 ? totalGP / totalCredits : 0;
 
   /* CoP = fail/absent hui subjects ke codes, comma-separated, e.g. "1412(T),1412(P)" */
   const failedCodes = [];
   currentData.forEach(row => {
     const c = snapshotCalc(row);
-    if (c.theoryGrade === "F" || c.theoryIsAB) {
+    if (c.theoryGrade === "F") {
       failedCodes.push(`${row.code || "?"}(T)`);
     }
-    if (row.hasPractical && (c.practicalGrade === "F" || c.practicalIsAB)) {
+    if (row.hasPractical && (c.practicalGrade === "F")) {
       failedCodes.push(`${row.code || "?"}(P)`);
     }
   });
 
-  const defaultResult = anyFail ? "FAIL" : (anyAbsent ? "PROMOTED" : "PASS");
+  const defaultResult = anyFail ? "PROMOTED" : "PASS";
   const defaultCop = failedCodes.join(",");
 
   document.getElementById("totalCredits").textContent = totalCredits;
@@ -1707,8 +1706,8 @@ function detectChanges() {
 
   const origTotalGP = originalCalc.reduce((s, c) => s + c.totalGP, 0);
   const newTotalGP = currentData.reduce((s, r) => s + snapshotCalc(r).totalGP, 0);
-  const origTC = originalData.reduce((s, r) => s + (r.theoryCredit || 0) + (r.practicalCredit || 0), 0);
-  const newTC = currentData.reduce((s, r) => s + (r.theoryCredit || 0) + (r.practicalCredit || 0), 0);
+  const origTC = originalData.reduce((s, r) => s + snapshotCalc(r).totalCredits, 0);
+  const newTC = currentData.reduce((s, r) => s + snapshotCalc(r).totalCredits, 0);
   const origSGPA = origTC > 0 ? origTotalGP / origTC : 0;
   const newSGPA = newTC > 0 ? newTotalGP / newTC : 0;
 
@@ -1806,20 +1805,14 @@ function detectChanges() {
   }
 }
 
-/* ============================================================
-   COLUMN NAMES — sgpa/result/cop ke actual DB column naam yahan
-   confirm karke daalo (get_table_columns_v2 se verify karo pehle).
-   ============================================================ */
-const SGPA_COLUMN = "sgpa";       // TODO verify: "sgpa" ya "sgpa_<sem>"?
-const RESULT_COLUMN = "resremark"; // TODO verify: "resremark" / "res_<sem>" / "rs1"?
-const COP_COLUMN = "cop";          // TODO verify
+/* sgpa / result / cop ke liye field names bhejte hain; server har table ke
+   actual column se resolve karta hai (jis table me column na ho wahan skip). */
 
 /* ============================================================
    BUILD UPDATES LIST — marks + grade/GP + sgpa/result/cop
    ============================================================ */
 function buildUpdatesList() {
   const updates = [];
-  const dbc = (studentData && studentData.summary && studentData.summary.dbColumns) || {};
   const _edited = isDataEdited();
   const sm = (studentData && studentData.summary) || {};
 
@@ -1829,10 +1822,10 @@ function buildUpdatesList() {
     const newSnap = snapshotCalc(row);
 
     if (row.theory !== orig.theory) {
-      updates.push({column: `a1te_${row.slot}`, value: row.theory});
+      updates.push({column: `a1te_${row.slot}`, value: row.theory === 0 ? "AB" : row.theory});
     }
     if (row.practical !== orig.practical && row.hasPractical) {
-      updates.push({column: `a1pe_${row.slot}`, value: row.practical});
+      updates.push({column: `a1pe_${row.slot}`, value: row.practical === 0 ? "AB" : row.practical});
     }
 
     if (newSnap.theoryGrade !== origSnap.theoryGrade) {
@@ -1841,6 +1834,9 @@ function buildUpdatesList() {
     if (newSnap.theoryNum !== origSnap.theoryNum) {
       updates.push({column: `a1gp_${row.slot}`, value: newSnap.theoryNum});
     }
+    if (newSnap.theoryCredit !== origSnap.theoryCredit) {
+      updates.push({column: `a1cr_${row.slot}`, value: newSnap.theoryCredit});
+    }
     if (row.hasPractical) {
       if (newSnap.practicalGrade !== origSnap.practicalGrade) {
         updates.push({column: `ap1gr_${row.slot}`, value: newSnap.practicalGrade});
@@ -1848,47 +1844,45 @@ function buildUpdatesList() {
       if (newSnap.practicalNum !== origSnap.practicalNum) {
         updates.push({column: `ap1gp_${row.slot}`, value: newSnap.practicalNum});
       }
+      if (newSnap.practicalCredit !== origSnap.practicalCredit) {
+        updates.push({column: `ap1cr_${row.slot}`, value: newSnap.practicalCredit});
+      }
     }
   });
 
-  /* SGPA — ek hi cell, poore semester ka */
+  /* SGPA / Result / CoP — sab candidate column naam bhejte hain (2529 wala tareeka).
+     Server har table me exact column check karta hai; jis table me column nahi
+     wahan wo update skip ho jata hai. */
   const totalGP = currentData.reduce((s, r) => s + snapshotCalc(r).totalGP, 0);
-  const totalCredits = currentData.reduce((s, r) => s + (r.theoryCredit || 0) + (r.practicalCredit || 0), 0);
-  const newSGPA = totalCredits > 0 ? (totalGP / totalCredits) : 0;
-  const origSGPA = parseFloat(sm.sgpa) || 0;
-  if (_edited && Math.abs(newSGPA - origSGPA) > 0.001) {
-    updates.push({column: dbc.sgpa || SGPA_COLUMN, value: newSGPA.toFixed(2)});
-  }
+  const totalCredits = currentData.reduce((s, r) => s + snapshotCalc(r).totalCredits, 0);
+  const sgpaStr = (totalCredits > 0 ? (totalGP / totalCredits) : 0).toFixed(2);
+  updates.push({column: "sgpa", value: sgpaStr});
+  updates.push({column: `sgpa_${currentSemester}`, value: sgpaStr});
 
-  /* Result — manual override priority, warna auto-calculated */
-  let anyFail = false, anyAbsent = false;
+  let anyFail = false;
   currentData.forEach(row => {
     const c = snapshotCalc(row);
-    if (c.theoryGrade === "F" && !c.theoryIsAB) anyFail = true;
-    if (row.hasPractical && c.practicalGrade === "F" && !c.practicalIsAB) anyFail = true;
-    if (c.theoryIsAB) anyAbsent = true;
-    if (row.hasPractical && c.practicalIsAB) anyAbsent = true;
+    if (c.theoryGrade === "F") anyFail = true;
+    if (row.hasPractical && c.practicalGrade === "F") anyFail = true;
   });
-  const newResult = manualOverride.result || (anyFail ? "FAIL" : (anyAbsent ? "PROMOTED" : "PASS"));
-  if (_edited && newResult !== (sm.resultStatus || "")) {
-    updates.push({column: dbc.result || RESULT_COLUMN, value: newResult});
-  }
+  /* Result kabhi FAIL nahi — fail/absent ho to PROMOTED, warna PASS */
+  const autoResult = anyFail ? "PROMOTED" : "PASS";
+  const manualRes = (manualOverride.result || "").trim();
+  const newResult = (manualRes && manualRes.toUpperCase() !== "FAIL") ? manualRes : autoResult;
+  /* Result ke sare candidate columns — jo table me hoga wahi update hoga */
+  ["res", "result", `res_${currentSemester}`, "resremark", "rs1"].forEach(c =>
+    updates.push({column: c, value: newResult}));
 
-  /* CoP — fail/absent subjects ke codes, comma-separated; sab pass to blank */
   const failedCodes = [];
   currentData.forEach(row => {
     const c = snapshotCalc(row);
-    if (c.theoryGrade === "F" || c.theoryIsAB) failedCodes.push(`${row.code || "?"}(T)`);
-    if (row.hasPractical && (c.practicalGrade === "F" || c.practicalIsAB)) failedCodes.push(`${row.code || "?"}(P)`);
+    if (c.theoryGrade === "F") failedCodes.push(`${row.code || "?"}(T)`);
+    if (row.hasPractical && (c.practicalGrade === "F")) failedCodes.push(`${row.code || "?"}(P)`);
   });
   const newCop = manualOverride.cop || failedCodes.join(",");
-  if (_edited && newCop !== (sm.carryOver || "")) {
-    if (newCop === "") {
-      updates.push({column: dbc.cop || COP_COLUMN, value: "", is_null: true});
-    } else {
-      updates.push({column: dbc.cop || COP_COLUMN, value: newCop});
-    }
-  }
+  /* CoP ke sare candidate columns */
+  ["cop", `cop_${currentSemester}`].forEach(c =>
+    updates.push({column: c, value: newCop, is_null: !newCop}));
 
   return updates;
 }

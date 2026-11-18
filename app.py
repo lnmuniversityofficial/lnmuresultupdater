@@ -23,7 +23,7 @@ from datetime import datetime, timedelta, timezone
 from flask import Flask, request, jsonify, send_from_directory
 import requests
 
-from sql_runner import execute_batch_updates, preview_updates, get_subject_credit, get_student_row, BATCH_TABLE_CATALOG
+from sql_runner import execute_batch_updates, preview_updates, get_subject_credit, get_student_row, BATCH_TABLE_CATALOG, resolve_field_column
 from telegram_bot import (
     notify_admin_request,
     broadcast_status,
@@ -57,6 +57,36 @@ def get_db_conn():
     conn = sqlite3.connect(DB_FILE)
     conn.row_factory = sqlite3.Row
     return conn
+
+def drop_request_queue_unique():
+    """Purani DB me request_queue par UNIQUE(rollno, status) hai — isse ek roll ki
+    dusri 'updated'/'failed'/'processing' request insert/update fail hoti hai.
+    SQLite me constraint ALTER se nahi hat sakta, isliye table rebuild karte hain."""
+    import re as _re
+    conn = get_db_conn()
+    cur = conn.cursor()
+    row = cur.execute("SELECT sql FROM sqlite_master WHERE type='table' AND name='request_queue'").fetchone()
+    old_sql = row[0] if row else None
+    if not old_sql or not _re.search(r',\s*UNIQUE\s*\(\s*rollno\s*,\s*status\s*\)', old_sql, _re.I):
+        conn.close()
+        return
+    new_sql = _re.sub(r',\s*UNIQUE\s*\(\s*rollno\s*,\s*status\s*\)', '', old_sql, flags=_re.I)
+    try:
+        cols = [r[1] for r in cur.execute("PRAGMA table_info(request_queue)").fetchall()]
+        col_list = ", ".join(cols)
+        cur.execute("BEGIN")
+        cur.execute("ALTER TABLE request_queue RENAME TO request_queue_old")
+        cur.execute(new_sql)
+        cur.execute(f"INSERT INTO request_queue ({col_list}) SELECT {col_list} FROM request_queue_old")
+        cur.execute("DROP TABLE request_queue_old")
+        conn.commit()
+        print("[MIGRATION] request_queue se UNIQUE(rollno, status) hata diya")
+    except Exception as e:
+        conn.rollback()
+        print(f"[MIGRATION ERROR] request_queue unique drop fail: {e}")
+    finally:
+        conn.close()
+
 
 def ensure_tables():
     conn = get_db_conn()
@@ -785,14 +815,11 @@ def convert_lnmu_json(data, semester_num=None, rollno=None, batch=None):
     db_cols = {}
     db_vals = {}
     _r = _own_row() if rollno else {}
-    for k, v in _r.items():
-        kl = str(k).lower()
-        if 'sgpa' in kl and 'sgpa' not in db_cols:
-            db_cols['sgpa'] = k
-        elif kl in ('resremark', f'res_{sem_val}', 'res', 'rs1', 'result') and ('result' not in db_cols or kl == 'resremark'):
-            db_cols['result'] = k
-        elif kl == 'cop' or kl == f'cop_{sem_val}':
-            db_cols['cop'] = k
+    # Same resolver jo update me use hota hai — display aur update ek hi column dekhenge
+    for name in ('sgpa', 'result', 'cop'):
+        col = resolve_field_column(list(_r.keys()), name, sem_val)
+        if col:
+            db_cols[name] = col
     for name, col in db_cols.items():
         v = _r.get(col)
         db_vals[name] = '' if v is None else str(v).strip()
@@ -1064,6 +1091,7 @@ if __name__ == '__main__':
     print("=" * 62)
 
     ensure_tables()
+    drop_request_queue_unique()
     print("  ✅ DB tables ready")
 
     db_status = check_db()

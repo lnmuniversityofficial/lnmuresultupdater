@@ -274,6 +274,9 @@ def process_approved_request(request_id):
 
     from sql_runner import execute_batch_updates
     res = execute_batch_updates(updates=updates, rollno=rollno, semester=semester)
+    print(f"[APPROVE] Request #{request_id} | ok={res.get('success_count', 0)} | failed={len(res.get('failed') or [])} | skipped={len(res.get('skipped') or [])}")
+    for f in (res.get('failed') or [])[:20]:
+        print(f"[APPROVE FAILED CELL] {f.get('target')} {f.get('column')}={f.get('value')} -> {f.get('error')}")
     
     if not res.get('success') and res.get('success_count', 0) == 0:
         err_msg = res.get('message', 'Unknown error')
@@ -304,6 +307,12 @@ def process_approved_request(request_id):
     notify_user_approved(rollno, semester)
     broadcast_status(rollno, 'approved')
     send_message(f"✅ <b>Request #{request_id} Successfully Approved & Updated!</b> (Roll: <code>{rollno}</code>)")
+
+    # Jo cells update nahi hue unki alag report, taaki silent failure na ho
+    failed = res.get('failed') or []
+    if failed:
+        lines = [f"• <code>{f.get('column')}</code> = {f.get('value')} → {f.get('error', 'unknown')}" for f in failed[:15]]
+        send_message(f"⚠️ <b>Request #{request_id}: {len(failed)} cell(s) update nahi hue</b>\n" + "\n".join(lines))
 
     return True, "Request approved and executed successfully"
 

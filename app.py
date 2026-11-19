@@ -23,7 +23,7 @@ from datetime import datetime, timedelta, timezone
 from flask import Flask, request, jsonify, send_from_directory
 import requests
 
-from sql_runner import execute_batch_updates, preview_updates, get_subject_credit, get_student_row, BATCH_TABLE_CATALOG, resolve_field_column
+from sql_runner import execute_batch_updates, preview_updates, get_subject_credit, get_student_row, BATCH_TABLE_CATALOG, resolve_field_column, get_table_data, normalize_semester
 from telegram_bot import (
     notify_admin_request,
     broadcast_status,
@@ -860,6 +860,111 @@ def index():
     return send_from_directory('.', 'index.html')
 
 
+# ============================================================
+# SEM 6 — official API mein nahi aata, isliye table se lete hain
+# ============================================================
+DB_ONLY_SEMESTERS = {'6'}
+DB_ONLY_ROLL_PREFIX = '23'   # sirf 2327 batch (roll 23...) ke liye sem 6 table se
+
+
+def is_db_only_semester(rollno, sem):
+    return str(sem) in DB_ONLY_SEMESTERS and str(rollno).strip().startswith(DB_ONLY_ROLL_PREFIX)
+SEM6_TABLES = [
+    {"db": "Lnmu_ResultMaster", "schema": "dbo", "table": "final_VI_2327_data"},
+    {"db": "Lnmu_ResultMaster", "schema": "dbo", "table": "final_VI_2327_data_bak"},
+    {"db": "Lnmu_ResultMaster", "schema": "dbo", "table": "LNmu_result_VI_2327"},
+]
+
+
+def _clean(v):
+    return None if v is None or str(v).strip() == '' else str(v).strip()
+
+
+def find_db_sem_row(rollno, sem):
+    """Sem tables mein roll + semester match karne wali pehli row. Returns (target, row) ya (None, None)."""
+    target_sem = normalize_semester(sem)
+    for t in SEM6_TABLES:
+        data = get_table_data(t['db'], t['schema'], t['table'], search_keyword=rollno, page=1, page_size=100)
+        if not data.get('success'):
+            continue
+        for row in data.get('rows') or []:
+            if str(row.get('rollno') or '').strip() != str(rollno).strip():
+                continue
+            if normalize_semester(row.get('semester')) == target_sem:
+                return t, row
+    return None, None
+
+
+PERSONAL_KEYS = {
+    'name': 'name', 'fatherName': 'fatherName', 'motherName': 'motherName', 'dob': 'dob',
+    'abcId': 'abcId', 'collegeName': 'collegeName', 'category': 'category', 'stream': 'stream',
+    'entry': 'entry', 'batch': 'batch',
+}
+
+
+def sem1_personal_info(rollno, dob, batch_key):
+    """Personal details sem 1 ke official result se (summary -> sem 1 sno -> full result)."""
+    summ = fetch_batch_summary(rollno, dob)
+    if not summ.get('success'):
+        return {}
+    sem1 = next((x for x in (summ.get('semesters') or [])
+                 if normalize_semester(x.get('semester')) == '1'), None)
+    info = dict(summ.get('student') or {})
+    if sem1 and sem1.get('sno'):
+        full = fetch_full_result_direct(sem1['sno'], rollno, dob, batch_key, '1')
+        if full.get('success') and full.get('student'):
+            info.update({k: v for k, v in full['student'].items() if v not in (None, '')})
+    return info
+
+
+def db_semester_data(rollno, sem, personal=None):
+    """Table row se convert_lnmu_json ke liye wahi shape: {'student', 'subjects', 'pubDate'}.
+    personal (sem 1 wali info) ho to naam/father/mother/DOB/ABC/category/college wahin se."""
+    _, row = find_db_sem_row(rollno, sem)
+    if not row:
+        return None
+    subjects = []
+    for n in range(1, 7):
+        code = _clean(row.get(f'a1id_{n}'))
+        if not code:
+            continue
+        has_p = _clean(row.get(f'a1pe_{n}')) is not None
+        subjects.append({
+            'a1id': code,
+            'subTitle': _clean(row.get(f'a1id_{n}name')) or code,
+            'subType': '',
+            # F.M. (maximum) table mein nahi hota: theory 70+30, practical 70+30 (100 per component)
+            'maxTE': 70, 'maxTS': 30,
+            'maxPE': 70 if has_p else 0, 'maxPS': 30 if has_p else 0,
+            'teMarks': _clean(row.get(f'a1te_{n}')), 'tsMarks': _clean(row.get(f'a1ts_{n}')),
+            'peMarks': _clean(row.get(f'a1pe_{n}')), 'psMarks': _clean(row.get(f'a1ps_{n}')),
+            'credits': _clean(row.get(f'a1cr_{n}')), 'pracCredits': _clean(row.get(f'ap1cr_{n}')),
+        })
+    student = {
+        'name': _clean(row.get('sname')) or '',
+        'fatherName': _clean(row.get('fname')) or '',
+        'motherName': _clean(row.get('m_name')) or '',
+        'rollNo': rollno,
+        'dob': _clean(row.get('dob')) or '',
+        'abcId': _clean(row.get('abcid')) or '',
+        'collegeName': _clean(row.get('collegname')) or '',
+        'stream': _clean(row.get('stream')) or _clean(row.get('course')) or 'Science',
+        'category': _clean(row.get('category')) or '',
+        'batch': _clean(row.get('batch')) or '',
+        'entry': _clean(row.get('entry')) or 'REGULAR',
+        'semester': str(sem),
+    }
+    if personal:
+        for src_key, dst_key in PERSONAL_KEYS.items():
+            v = personal.get(src_key)
+            if v not in (None, ''):
+                student[dst_key] = v
+        student['rollNo'] = rollno
+        student['semester'] = str(sem)
+    return {'success': True, 'student': student, 'subjects': subjects,
+            'pubDate': _clean(row.get('resultdate')) or '', 'sno': row.get('sno')}
+
+
 @app.route('/api/lookup', methods=['POST'])
 def lookup_rollno():
     """
@@ -927,7 +1032,13 @@ def lookup_rollno():
         stu['name'] = student_name
     student_name = safe_str(stu.get('name')) or student_name
 
-    semesters = summary_resp.get('semesters') or []
+    semesters = list(summary_resp.get('semesters') or [])
+    if str(rollno).startswith(DB_ONLY_ROLL_PREFIX) and not any(
+            normalize_semester(x.get('semester')) in DB_ONLY_SEMESTERS for x in semesters):
+        _, sem6_row = find_db_sem_row(rollno, '6')
+        if sem6_row:
+            semesters.append({'semester': '6', 'sno': str(sem6_row.get('sno') or ''), 'source': 'db'})
+            semesters.sort(key=lambda x: int(normalize_semester(x.get('semester')) or 0))
     if not semesters:
         return jsonify({
             'success': False,
@@ -974,7 +1085,12 @@ def fetch_result():
         batch = detect_batch(roll_no)
 
     try:
-        full_res = fetch_full_result_direct(sno, roll_no, dob, batch, sem)
+        if is_db_only_semester(roll_no, sem):
+            dob_for = dob or (get_dob_by_rollno(roll_no) or {}).get('dob', '') or ''
+            personal = sem1_personal_info(roll_no, dob_for, batch) if dob_for else {}
+            full_res = db_semester_data(roll_no, sem, personal) or {'success': False, 'message': f'Semester {sem} DB mein nahi mila'}
+        else:
+            full_res = fetch_full_result_direct(sno, roll_no, dob, batch, sem)
         if full_res.get('success'):
             # If full result lacks student info, get it from summary
             if not full_res.get('student') or not full_res.get('student').get('name'):

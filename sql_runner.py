@@ -113,6 +113,10 @@ def update_cell(db, schema, table, primary_keys, column, new_value, is_null=Fals
 # ============================================================
 BATCH_TABLE_CATALOG = {
     '23': [
+        # Sem 6 (VI) — naye tables, sabse pehle check hon taki grade card/update inhi se ho
+        {"db": "Lnmu_ResultMaster", "schema": "dbo", "table": "final_VI_2327_data"},
+        {"db": "Lnmu_ResultMaster", "schema": "dbo", "table": "final_VI_2327_data_bak"},
+        {"db": "Lnmu_ResultMaster", "schema": "dbo", "table": "LNmu_result_VI_2327"},
         {"db": "DBlnmu_25", "schema": "dbo", "table": "LNMU_RESULTCBCS"},
         {"db": "DBlnmu_25", "schema": "dbo", "table": "lnmu_resultcbcs_nc"},
         {"db": "DBlnmu_25", "schema": "dbo", "table": "LNMU_RESULTCBCS_old"},
@@ -239,6 +243,38 @@ def get_table_columns_v2(db, schema, table):
     return get_table_columns(db, schema, table)
 
 
+SEM6_DEFAULT_TARGETS = [
+    {"db": "Lnmu_ResultMaster", "schema": "dbo", "table": "final_VI_2327_data"},
+    {"db": "Lnmu_ResultMaster", "schema": "dbo", "table": "final_VI_2327_data_bak"},
+    {"db": "Lnmu_ResultMaster", "schema": "dbo", "table": "LNmu_result_VI_2327"},
+]
+
+
+def _sem6_default_targets(rollno):
+    """Sem 6 (batch 2327): koi semester verification/catalog scan nahi — hamesha ye 3 tables.
+    Bas roll ki row ka sno chahiye update ke liye."""
+    out = []
+    for item in SEM6_DEFAULT_TARGETS:
+        db, schema, table = item["db"], item["schema"], item["table"]
+        data = get_table_data(db, schema, table, search_keyword=rollno, page=1, page_size=100)
+        if not data.get("success"):
+            print(f"[SEM6] {db}.{schema}.{table}: fetch fail, skip")
+            continue
+        columns = [c.get("name") for c in data.get("columns", []) if c.get("name")]
+        row = next((r for r in (data.get("rows") or [])
+                    if str(r.get("rollno") or "").strip() == rollno), None)
+        if row is None:
+            print(f"[SEM6] {db}.{schema}.{table}: roll {rollno} ki row nahi mili, skip")
+            continue
+        sno_val = str(row.get("sno") or row.get("SNO") or row.get("id") or "").strip()
+        out.append({
+            "db": db, "schema": schema, "table": table, "sno": sno_val,
+            "columns": columns, "row": row, "target_key": f"{db}.{schema}.{table}",
+        })
+        print(f"  ✅ SEM6 Target: {db}.{schema}.{table} | sno: {sno_val}")
+    return out
+
+
 def find_matching_targets(rollno, semester, batch_year=None):
     """
     Search all category tables for given batch.
@@ -249,6 +285,8 @@ def find_matching_targets(rollno, semester, batch_year=None):
     target_sem_norm = normalize_semester(semester)
     if not batch_year:
         batch_year = rollno[:2] if len(rollno) >= 2 else "25"
+    if target_sem_norm == "6" and str(batch_year) == "23":
+        return _sem6_default_targets(rollno)
 
     candidate_tables = BATCH_TABLE_CATALOG.get(batch_year, BATCH_TABLE_CATALOG.get("25", []))
     verified_targets = []

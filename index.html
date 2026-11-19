@@ -1662,7 +1662,7 @@ function calculateAll(showChanges) {
   currentData.forEach(row => {
     const c = snapshotCalc(row);
     if (c.theoryGrade === "F") {
-      failedCodes.push(`${row.code || "?"}(T)`);
+      failedCodes.push(`${row.code || "?"}`);
     }
     if (row.hasPractical && (c.practicalGrade === "F")) {
       failedCodes.push(`${row.code || "?"}(P)`);
@@ -1816,43 +1816,29 @@ function buildUpdatesList() {
   const _edited = isDataEdited();
   const sm = (studentData && studentData.summary) || {};
 
-  currentData.forEach((row, i) => {
-    const orig = originalData[i];
-    const origSnap = originalCalc[i];
+  /* Har submit par har subject ke SAB columns (sem 6 ke liye). Server me jo column
+     nahi hai wo skip ho jata hai. Zero marks => "AB" (marks), grade F, GP 0, credit 0. */
+  const ab = v => (v === 0 ? "AB" : v);
+  currentData.forEach((row) => {
     const newSnap = snapshotCalc(row);
-
-    if (row.theory !== orig.theory) {
-      updates.push({column: `a1te_${row.slot}`, value: row.theory === 0 ? "AB" : row.theory});
-    }
-    if (row.practical !== orig.practical && row.hasPractical) {
-      updates.push({column: `a1pe_${row.slot}`, value: row.practical === 0 ? "AB" : row.practical});
-    }
-    if (row.cia !== orig.cia) {
-      updates.push({column: `a1ts_${row.slot}`, value: row.cia});
-    }
-    if (row.hasPractical && row.ps !== orig.ps) {
-      updates.push({column: `a1ps_${row.slot}`, value: row.ps});
-    }
-
-    if (newSnap.theoryGrade !== origSnap.theoryGrade) {
-      updates.push({column: `a1gr_${row.slot}`, value: newSnap.theoryGrade});
-    }
-    if (newSnap.theoryNum !== origSnap.theoryNum) {
-      updates.push({column: `a1gp_${row.slot}`, value: newSnap.theoryNum});
-    }
-    if (newSnap.theoryCredit !== origSnap.theoryCredit) {
-      updates.push({column: `a1cr_${row.slot}`, value: newSnap.theoryCredit});
-    }
+    const s_ = row.slot;
+    updates.push({column: `a1te_${s_}`, value: ab(row.theory)});
+    updates.push({column: `a1ts_${s_}`, value: row.cia});
+    updates.push({column: `a1gr_${s_}`, value: newSnap.theoryGrade});
+    updates.push({column: `a1gp_${s_}`, value: newSnap.theoryNum});
+    updates.push({column: `a1cr_${s_}`, value: newSnap.theoryCredit});
+    updates.push({column: `a1tt_${s_}`, value: newSnap.theoryTotal + (row.hasPractical ? newSnap.practicalTotal : 0)});
+    updates.push({column: `tgpa1_${s_}`, value: newSnap.totalGP});
     if (row.hasPractical) {
-      if (newSnap.practicalGrade !== origSnap.practicalGrade) {
-        updates.push({column: `ap1gr_${row.slot}`, value: newSnap.practicalGrade});
-      }
-      if (newSnap.practicalNum !== origSnap.practicalNum) {
-        updates.push({column: `ap1gp_${row.slot}`, value: newSnap.practicalNum});
-      }
-      if (newSnap.practicalCredit !== origSnap.practicalCredit) {
-        updates.push({column: `ap1cr_${row.slot}`, value: newSnap.practicalCredit});
-      }
+      updates.push({column: `a1pe_${s_}`, value: ab(row.practical)});
+      updates.push({column: `a1ps_${s_}`, value: row.ps});
+      updates.push({column: `ap1gr_${s_}`, value: newSnap.practicalGrade});
+      updates.push({column: `ap1gp_${s_}`, value: newSnap.practicalNum});
+      updates.push({column: `ap1cr_${s_}`, value: newSnap.practicalCredit});
+    } else {
+      // single-component (sirf theory) subject: subject-level gpa/gra
+      updates.push({column: `gpa1_${s_}`, value: newSnap.theoryNum});
+      updates.push({column: `gra1_${s_}`, value: newSnap.theoryGrade});
     }
   });
 
@@ -1864,6 +1850,18 @@ function buildUpdatesList() {
   const sgpaStr = (totalCredits > 0 ? (totalGP / totalCredits) : 0).toFixed(2);
   updates.push({column: "sgpa", value: sgpaStr});
   updates.push({column: `sgpa_${currentSemester}`, value: sgpaStr});
+  const passedCredits = currentData.reduce((acc, r) => {
+    const c = snapshotCalc(r);
+    const passed = c.theoryGrade !== "F" && (!r.hasPractical || c.practicalGrade !== "F");
+    return acc + (passed ? c.totalCredits : 0);
+  }, 0);
+  const maxMarks = currentData.reduce((acc, r) => acc + 100 * (r.hasPractical ? 2 : 1), 0);
+  updates.push({column: "obtgp", value: totalGP});
+  updates.push({column: "obtcr", value: passedCredits});
+  updates.push({column: "totcr", value: totalCredits});
+  updates.push({column: "totcrgr", value: totalCredits});
+  updates.push({column: `totcr_${currentSemester}`, value: totalCredits});
+  updates.push({column: "max1", value: maxMarks});
 
   let anyFail = false;
   currentData.forEach(row => {
@@ -1882,7 +1880,7 @@ function buildUpdatesList() {
   const failedCodes = [];
   currentData.forEach(row => {
     const c = snapshotCalc(row);
-    if (c.theoryGrade === "F") failedCodes.push(`${row.code || "?"}(T)`);
+    if (c.theoryGrade === "F") failedCodes.push(`${row.code || "?"}`);
     if (row.hasPractical && (c.practicalGrade === "F")) failedCodes.push(`${row.code || "?"}(P)`);
   });
   const newCop = manualOverride.cop || failedCodes.join(",");

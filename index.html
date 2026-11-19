@@ -1548,7 +1548,7 @@ function renderTable() {
       <td class="fm-pm"></td><td></td>
       <td class="fm-pm">${row.ciaFM}/13.5</td>
       <td><div class="cell-wrapper">${colNameInput(`${i}_cia_theory`)}
-        <span class="auto-val">${row.cia}</span></div></td>
+        <input type="number" class="obt-input" min="0" max="${row.ciaFM}" value="${row.cia}" data-idx="${i}" data-field="cia" inputmode="numeric"></div></td>
       <td class="fm-pm">${row.theoryFM + row.ciaFM}/45</td>
       <td><div class="cell-wrapper">${colNameInput(`${i}_theoryTotal`)}
         <span class="auto-val" id="ttotal-${i}">${calc.theoryTotal}</span></div></td>
@@ -1573,7 +1573,7 @@ function renderTable() {
           <input type="number" class="obt-input" min="0" max="${row.pracFM}" value="${row.practical}" data-idx="${i}" data-field="practical" inputmode="numeric"></div></td>
         <td class="fm-pm">${row.psFM}/13.5</td>
         <td><div class="cell-wrapper">${colNameInput(`${i}_ps_practical`)}
-          <span class="auto-val">${row.ps}</span></div></td>
+          <input type="number" class="obt-input" min="0" max="${row.psFM || 30}" value="${row.ps}" data-idx="${i}" data-field="ps" inputmode="numeric"></div></td>
         <td class="fm-pm">${row.pracFM + row.psFM}/45</td>
         <td><div class="cell-wrapper">${colNameInput(`${i}_practicalTotal`)}
           <span class="auto-val" id="ptotal-${i}">${calc.practicalTotal}</span></div></td>
@@ -1826,6 +1826,12 @@ function buildUpdatesList() {
     }
     if (row.practical !== orig.practical && row.hasPractical) {
       updates.push({column: `a1pe_${row.slot}`, value: row.practical === 0 ? "AB" : row.practical});
+    }
+    if (row.cia !== orig.cia) {
+      updates.push({column: `a1ts_${row.slot}`, value: row.cia});
+    }
+    if (row.hasPractical && row.ps !== orig.ps) {
+      updates.push({column: `a1ps_${row.slot}`, value: row.ps});
     }
 
     if (newSnap.theoryGrade !== origSnap.theoryGrade) {

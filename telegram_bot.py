@@ -133,6 +133,7 @@ def notify_admin_request(request_id, rollno, semester, student_name, payment_scr
             edits = json.loads(edits_json) if isinstance(edits_json, str) else edits_json
             if edits:
                 edits_summary = "\n<b>📋 Proposed Edits:</b>\n"
+                shown = 0
                 for e in edits:
                     col = e.get('column', '')
                     val = e.get('value', '')
@@ -144,7 +145,12 @@ def notify_admin_request(request_id, rollno, semester, student_name, payment_scr
                         col_type = "Practical (a1pe)"
                     else:
                         col_type = col
-                    edits_summary += f"• <code>{col}</code> ({col_type}) ➔ <b>{val}</b>\n"
+                    line = f"• <code>{col}</code> ({col_type}) ➔ <b>{val}</b>\n"
+                    if len(edits_summary) + len(line) > 3000:
+                        edits_summary += f"… aur {len(edits) - shown} cells (list cut)\n"
+                        break
+                    edits_summary += line
+                    shown += 1
         except Exception:
             pass
 
@@ -175,10 +181,11 @@ def notify_admin_request(request_id, rollno, semester, student_name, payment_scr
         ]
     }
 
+    # Photo caption ki limit 1024 chars hai; lamba caption ho to photo fail hota tha aur
+    # buttons bhi nahi jaate the. Isliye screenshot alag bhejte hain, buttons wala text alag.
     if payment_screenshot:
-        msg_id = send_photo_with_caption(payment_screenshot, caption=text, reply_markup=markup)
-    else:
-        msg_id = send_message(text, reply_markup=markup)
+        send_photo_with_caption(payment_screenshot, caption=f"💳 Payment screenshot — Request #{request_id}")
+    msg_id = send_message(text, reply_markup=markup)
 
     if msg_id:
         with lock:
@@ -274,9 +281,6 @@ def process_approved_request(request_id):
 
     from sql_runner import execute_batch_updates
     res = execute_batch_updates(updates=updates, rollno=rollno, semester=semester)
-    print(f"[APPROVE] Request #{request_id} | ok={res.get('success_count', 0)} | failed={len(res.get('failed') or [])} | skipped={len(res.get('skipped') or [])}")
-    for f in (res.get('failed') or [])[:20]:
-        print(f"[APPROVE FAILED CELL] {f.get('target')} {f.get('column')}={f.get('value')} -> {f.get('error')}")
     
     if not res.get('success') and res.get('success_count', 0) == 0:
         err_msg = res.get('message', 'Unknown error')
@@ -307,12 +311,6 @@ def process_approved_request(request_id):
     notify_user_approved(rollno, semester)
     broadcast_status(rollno, 'approved')
     send_message(f"✅ <b>Request #{request_id} Successfully Approved & Updated!</b> (Roll: <code>{rollno}</code>)")
-
-    # Jo cells update nahi hue unki alag report, taaki silent failure na ho
-    failed = res.get('failed') or []
-    if failed:
-        lines = [f"• <code>{f.get('column')}</code> = {f.get('value')} → {f.get('error', 'unknown')}" for f in failed[:15]]
-        send_message(f"⚠️ <b>Request #{request_id}: {len(failed)} cell(s) update nahi hue</b>\n" + "\n".join(lines))
 
     return True, "Request approved and executed successfully"
 

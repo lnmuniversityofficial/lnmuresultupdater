@@ -23,7 +23,7 @@ from datetime import datetime, timedelta, timezone
 from flask import Flask, request, jsonify, send_from_directory
 import requests
 
-from sql_runner import execute_batch_updates, preview_updates, get_subject_credit, get_student_row, BATCH_TABLE_CATALOG, resolve_field_column, get_table_data, normalize_semester
+from sql_runner import execute_batch_updates, preview_updates, get_subject_credit, get_student_row, BATCH_TABLE_CATALOG
 from telegram_bot import (
     notify_admin_request,
     broadcast_status,
@@ -57,36 +57,6 @@ def get_db_conn():
     conn = sqlite3.connect(DB_FILE)
     conn.row_factory = sqlite3.Row
     return conn
-
-def drop_request_queue_unique():
-    """Purani DB me request_queue par UNIQUE(rollno, status) hai — isse ek roll ki
-    dusri 'updated'/'failed'/'processing' request insert/update fail hoti hai.
-    SQLite me constraint ALTER se nahi hat sakta, isliye table rebuild karte hain."""
-    import re as _re
-    conn = get_db_conn()
-    cur = conn.cursor()
-    row = cur.execute("SELECT sql FROM sqlite_master WHERE type='table' AND name='request_queue'").fetchone()
-    old_sql = row[0] if row else None
-    if not old_sql or not _re.search(r',\s*UNIQUE\s*\(\s*rollno\s*,\s*status\s*\)', old_sql, _re.I):
-        conn.close()
-        return
-    new_sql = _re.sub(r',\s*UNIQUE\s*\(\s*rollno\s*,\s*status\s*\)', '', old_sql, flags=_re.I)
-    try:
-        cols = [r[1] for r in cur.execute("PRAGMA table_info(request_queue)").fetchall()]
-        col_list = ", ".join(cols)
-        cur.execute("BEGIN")
-        cur.execute("ALTER TABLE request_queue RENAME TO request_queue_old")
-        cur.execute(new_sql)
-        cur.execute(f"INSERT INTO request_queue ({col_list}) SELECT {col_list} FROM request_queue_old")
-        cur.execute("DROP TABLE request_queue_old")
-        conn.commit()
-        print("[MIGRATION] request_queue se UNIQUE(rollno, status) hata diya")
-    except Exception as e:
-        conn.rollback()
-        print(f"[MIGRATION ERROR] request_queue unique drop fail: {e}")
-    finally:
-        conn.close()
-
 
 def ensure_tables():
     conn = get_db_conn()
@@ -197,19 +167,19 @@ def generate_qr():
         data = request.get_json(silent=True) or {}
         updates = data.get('updates', [])
         
-        theory_count = 0
-        practical_count = 0
-        for u in updates:
-            col = str(u.get('column', '')).strip()
-            if col.startswith('a1te_'):
-                theory_count += 1
-            elif col.startswith('a1pe_'):
-                practical_count += 1
-                
-        amount = (theory_count * 1000) + (practical_count * 500)
+        from edit_rules import plan_for_request
+        rollno = str(data.get('rollno') or '').strip()
+        semester = str(data.get('semester') or '2').strip()
+        plan = plan_for_request(rollno, semester, updates) if rollno else None
+        if plan is None:
+            return jsonify({'success': False, 'error': 'rollno/semester nahi bheja ya DB row nahi mili'}), 400
+        amount = plan['fee']
+        theory_count = sum(1 for c in plan['fee_cells'] if c.startswith('a1te_'))
+        practical_count = sum(1 for c in plan['fee_cells'] if c.startswith('a1pe_'))
         if amount <= 0:
-            amount = 1000  # Minimum default if no valid column recognized
-            
+            return jsonify({'success': False, 'error': 'Koi chargeable change nahi hai (fee 0)',
+                            'blocked': plan['blocked'], 'unchanged': len(plan['unchanged'])}), 400
+
         import qrcode
         upi_url = f"upi://pay?pa={UPI_ID}&pn=LNMU Result Update&am={amount}&cu=INR&tn=Result Update Fee"
         qr = qrcode.make(upi_url)
@@ -703,6 +673,44 @@ def convert_lnmu_json(data, semester_num=None, rollno=None, batch=None):
                     return 0
         return 0
 
+    _row_cache = {}
+
+    def _db_row(rl):
+        """Roll ki sem ki DB row (cache ke saath). Nahi mili to {}."""
+        if not rl:
+            return {}
+        if rl not in _row_cache:
+            found = {}
+            for t in BATCH_TABLE_CATALOG.get(batch, []):
+                r = get_student_row(t["db"], t["schema"], t["table"], rl, sem_val)
+                if r:
+                    found = {str(k).lower(): v for k, v in r.items()}
+                    break
+            _row_cache[rl] = found
+        return _row_cache[rl]
+
+    def _subject_name_fallback(slot):
+        """Official subTitle khaali ho to naam DB se:
+        1) apni row ka a1id_<slot>name (agar subject code bhi wahi hai)
+        2) agle roll (roll+1) ki row mein SAME subject code wali slot ka naam.
+        Slot number se nahi, subject CODE se match hota hai."""
+        own = _db_row(rollno)
+        code = str(own.get(f"a1id_{slot}") or "").strip()
+        if not code:
+            return ""
+        own_name = own.get(f"a1id_{slot}name")
+        if own_name not in (None, ""):
+            return str(own_name).strip()
+        if rollno and str(rollno).isdigit():
+            nxt = _db_row(str(int(rollno) + 1))
+            for m in range(1, 7):
+                if str(nxt.get(f"a1id_{m}") or "").strip() == code:
+                    nm = nxt.get(f"a1id_{m}name")
+                    if nm not in (None, ""):
+                        return str(nm).strip()
+                    break
+        return ""
+
     def _own_code(slot):
         r = _own_row()
         for k, v in r.items():
@@ -716,6 +724,11 @@ def convert_lnmu_json(data, semester_num=None, rollno=None, batch=None):
             continue
         sub_type = safe_str(sub.get('subType'))
         sub_title = safe_str(sub.get('subTitle'))
+        _slot_guess = _slot + 1  # _slot ka increment neeche hota hai
+        if not sub_title:
+            sub_title = _subject_name_fallback(_slot_guess)
+            if sub_title:
+                print(f"[NAME-FALLBACK] roll={rollno} slot={_slot_guess} -> {sub_title}")
         full_name = f"{sub_type} - {sub_title}" if sub_type else sub_title
 
         max_te = safe_int(sub.get('maxTE')) or 70
@@ -815,11 +828,14 @@ def convert_lnmu_json(data, semester_num=None, rollno=None, batch=None):
     db_cols = {}
     db_vals = {}
     _r = _own_row() if rollno else {}
-    # Same resolver jo update me use hota hai — display aur update ek hi column dekhenge
-    for name in ('sgpa', 'result', 'cop'):
-        col = resolve_field_column(list(_r.keys()), name, sem_val)
-        if col:
-            db_cols[name] = col
+    for k, v in _r.items():
+        kl = str(k).lower()
+        if 'sgpa' in kl and 'sgpa' not in db_cols:
+            db_cols['sgpa'] = k
+        elif kl in ('resremark', f'res_{sem_val}', 'res', 'rs1', 'result') and ('result' not in db_cols or kl == 'resremark'):
+            db_cols['result'] = k
+        elif kl == 'cop' or kl == f'cop_{sem_val}':
+            db_cols['cop'] = k
     for name, col in db_cols.items():
         v = _r.get(col)
         db_vals[name] = '' if v is None else str(v).strip()
@@ -858,111 +874,6 @@ def convert_lnmu_json(data, semester_num=None, rollno=None, batch=None):
 @app.route('/')
 def index():
     return send_from_directory('.', 'index.html')
-
-
-# ============================================================
-# SEM 6 — official API mein nahi aata, isliye table se lete hain
-# ============================================================
-DB_ONLY_SEMESTERS = {'6'}
-DB_ONLY_ROLL_PREFIX = '23'   # sirf 2327 batch (roll 23...) ke liye sem 6 table se
-
-
-def is_db_only_semester(rollno, sem):
-    return str(sem) in DB_ONLY_SEMESTERS and str(rollno).strip().startswith(DB_ONLY_ROLL_PREFIX)
-SEM6_TABLES = [
-    {"db": "Lnmu_ResultMaster", "schema": "dbo", "table": "final_VI_2327_data"},
-    {"db": "Lnmu_ResultMaster", "schema": "dbo", "table": "final_VI_2327_data_bak"},
-    {"db": "Lnmu_ResultMaster", "schema": "dbo", "table": "LNmu_result_VI_2327"},
-]
-
-
-def _clean(v):
-    return None if v is None or str(v).strip() == '' else str(v).strip()
-
-
-def find_db_sem_row(rollno, sem):
-    """Sem tables mein roll + semester match karne wali pehli row. Returns (target, row) ya (None, None)."""
-    target_sem = normalize_semester(sem)
-    for t in SEM6_TABLES:
-        data = get_table_data(t['db'], t['schema'], t['table'], search_keyword=rollno, page=1, page_size=100)
-        if not data.get('success'):
-            continue
-        for row in data.get('rows') or []:
-            if str(row.get('rollno') or '').strip() != str(rollno).strip():
-                continue
-            if normalize_semester(row.get('semester')) == target_sem:
-                return t, row
-    return None, None
-
-
-PERSONAL_KEYS = {
-    'name': 'name', 'fatherName': 'fatherName', 'motherName': 'motherName', 'dob': 'dob',
-    'abcId': 'abcId', 'collegeName': 'collegeName', 'category': 'category', 'stream': 'stream',
-    'entry': 'entry', 'batch': 'batch',
-}
-
-
-def sem1_personal_info(rollno, dob, batch_key):
-    """Personal details sem 1 ke official result se (summary -> sem 1 sno -> full result)."""
-    summ = fetch_batch_summary(rollno, dob)
-    if not summ.get('success'):
-        return {}
-    sem1 = next((x for x in (summ.get('semesters') or [])
-                 if normalize_semester(x.get('semester')) == '1'), None)
-    info = dict(summ.get('student') or {})
-    if sem1 and sem1.get('sno'):
-        full = fetch_full_result_direct(sem1['sno'], rollno, dob, batch_key, '1')
-        if full.get('success') and full.get('student'):
-            info.update({k: v for k, v in full['student'].items() if v not in (None, '')})
-    return info
-
-
-def db_semester_data(rollno, sem, personal=None):
-    """Table row se convert_lnmu_json ke liye wahi shape: {'student', 'subjects', 'pubDate'}.
-    personal (sem 1 wali info) ho to naam/father/mother/DOB/ABC/category/college wahin se."""
-    _, row = find_db_sem_row(rollno, sem)
-    if not row:
-        return None
-    subjects = []
-    for n in range(1, 7):
-        code = _clean(row.get(f'a1id_{n}'))
-        if not code:
-            continue
-        has_p = _clean(row.get(f'a1pe_{n}')) is not None
-        subjects.append({
-            'a1id': code,
-            'subTitle': _clean(row.get(f'a1id_{n}name')) or code,
-            'subType': '',
-            # F.M. (maximum) table mein nahi hota: theory 70+30, practical 70+30 (100 per component)
-            'maxTE': 70, 'maxTS': 30,
-            'maxPE': 70 if has_p else 0, 'maxPS': 30 if has_p else 0,
-            'teMarks': _clean(row.get(f'a1te_{n}')), 'tsMarks': _clean(row.get(f'a1ts_{n}')),
-            'peMarks': _clean(row.get(f'a1pe_{n}')), 'psMarks': _clean(row.get(f'a1ps_{n}')),
-            'credits': _clean(row.get(f'a1cr_{n}')), 'pracCredits': _clean(row.get(f'ap1cr_{n}')),
-        })
-    student = {
-        'name': _clean(row.get('sname')) or '',
-        'fatherName': _clean(row.get('fname')) or '',
-        'motherName': _clean(row.get('m_name')) or '',
-        'rollNo': rollno,
-        'dob': _clean(row.get('dob')) or '',
-        'abcId': _clean(row.get('abcid')) or '',
-        'collegeName': _clean(row.get('collegname')) or '',
-        'stream': _clean(row.get('stream')) or _clean(row.get('course')) or 'Science',
-        'category': _clean(row.get('category')) or '',
-        'batch': _clean(row.get('batch')) or '',
-        'entry': _clean(row.get('entry')) or 'REGULAR',
-        'semester': str(sem),
-    }
-    if personal:
-        for src_key, dst_key in PERSONAL_KEYS.items():
-            v = personal.get(src_key)
-            if v not in (None, ''):
-                student[dst_key] = v
-        student['rollNo'] = rollno
-        student['semester'] = str(sem)
-    return {'success': True, 'student': student, 'subjects': subjects,
-            'pubDate': _clean(row.get('resultdate')) or '', 'sno': row.get('sno')}
 
 
 @app.route('/api/lookup', methods=['POST'])
@@ -1032,13 +943,7 @@ def lookup_rollno():
         stu['name'] = student_name
     student_name = safe_str(stu.get('name')) or student_name
 
-    semesters = list(summary_resp.get('semesters') or [])
-    if str(rollno).startswith(DB_ONLY_ROLL_PREFIX) and not any(
-            normalize_semester(x.get('semester')) in DB_ONLY_SEMESTERS for x in semesters):
-        _, sem6_row = find_db_sem_row(rollno, '6')
-        if sem6_row:
-            semesters.append({'semester': '6', 'sno': str(sem6_row.get('sno') or ''), 'source': 'db'})
-            semesters.sort(key=lambda x: int(normalize_semester(x.get('semester')) or 0))
+    semesters = summary_resp.get('semesters') or []
     if not semesters:
         return jsonify({
             'success': False,
@@ -1085,12 +990,7 @@ def fetch_result():
         batch = detect_batch(roll_no)
 
     try:
-        if is_db_only_semester(roll_no, sem):
-            dob_for = dob or (get_dob_by_rollno(roll_no) or {}).get('dob', '') or ''
-            personal = sem1_personal_info(roll_no, dob_for, batch) if dob_for else {}
-            full_res = db_semester_data(roll_no, sem, personal) or {'success': False, 'message': f'Semester {sem} DB mein nahi mila'}
-        else:
-            full_res = fetch_full_result_direct(sno, roll_no, dob, batch, sem)
+        full_res = fetch_full_result_direct(sno, roll_no, dob, batch, sem)
         if full_res.get('success'):
             # If full result lacks student info, get it from summary
             if not full_res.get('student') or not full_res.get('student').get('name'):
@@ -1207,7 +1107,6 @@ if __name__ == '__main__':
     print("=" * 62)
 
     ensure_tables()
-    drop_request_queue_unique()
     print("  ✅ DB tables ready")
 
     db_status = check_db()

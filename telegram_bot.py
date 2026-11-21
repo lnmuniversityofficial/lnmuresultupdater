@@ -124,39 +124,39 @@ def notify_admin_request(request_id, rollno, semester, student_name, payment_scr
     Shows requested cell edits, user custom message, calculated fee, and payment details.
     """
     masked_roll = rollno[:5] + "****" + rollno[-3:] if len(rollno) >= 8 else rollno
-    
-    edits_summary = ""
-    theory_count = 0
-    practical_count = 0
-    if edits_json:
-        try:
-            edits = json.loads(edits_json) if isinstance(edits_json, str) else edits_json
-            if edits:
-                edits_summary = "\n<b>📋 Proposed Edits:</b>\n"
-                shown = 0
-                for e in edits:
-                    col = e.get('column', '')
-                    val = e.get('value', '')
-                    if "a1te" in col:
-                        theory_count += 1
-                        col_type = "Theory (a1te)"
-                    elif "a1pe" in col:
-                        practical_count += 1
-                        col_type = "Practical (a1pe)"
-                    else:
-                        col_type = col
-                    line = f"• <code>{col}</code> ({col_type}) ➔ <b>{val}</b>\n"
-                    if len(edits_summary) + len(line) > 3000:
-                        edits_summary += f"… aur {len(edits) - shown} cells (list cut)\n"
-                        break
-                    edits_summary += line
-                    shown += 1
-        except Exception:
-            pass
 
-    calculated_amount = (theory_count * 1000) + (practical_count * 500)
-    if calculated_amount <= 0:
-        calculated_amount = 1000
+    try:
+        edits = json.loads(edits_json) if isinstance(edits_json, str) else (edits_json or [])
+    except Exception:
+        edits = []
+    plan = None
+    if edits:
+        try:
+            from edit_rules import plan_for_request
+            plan = plan_for_request(rollno, semester, edits)
+        except Exception as ex:
+            print(f"[FEE] plan fail: {ex}")
+    calculated_amount = plan["fee"] if plan else 0
+
+    from collections import Counter
+    fee_counts = Counter(c.split("_")[0] for c in (plan or {}).get("fee_cells", []))
+    fee_breakdown = ", ".join(f"{k} × {v}" for k, v in fee_counts.items()) or "0"
+
+    edits_summary = ""
+    if plan and plan["apply"]:
+        edits_summary = "\n<b>📋 Proposed Edits (sirf changed cells):</b>\n"
+        shown = 0
+        for c in plan["apply"]:
+            line = f"• <code>{c['column']}</code> (old {c['old']} ➔ <b>{c['value']}</b>)\n"
+            if len(edits_summary) + len(line) > 3000:
+                edits_summary += f"… aur {len(plan['apply']) - shown} cells (list cut)\n"
+                break
+            edits_summary += line
+            shown += 1
+    if plan and plan["blocked"]:
+        edits_summary += f"\n⚠️ <b>Blocked (marks change nahi, credit alone allowed nahi):</b> {', '.join(plan['blocked'])}\n"
+    if edits and plan is None:
+        edits_summary += "\n⚠️ Current DB row nahi mili, fee calculate nahi hua\n"
 
     msg_text = user_message.strip() if user_message else "None"
 
@@ -166,7 +166,7 @@ def notify_admin_request(request_id, rollno, semester, student_name, payment_scr
         f"<b>Name:</b> {student_name or 'N/A'}\n"
         f"<b>Semester:</b> {semester}\n"
         f"<b>User Message:</b> {msg_text}\n"
-        f"<b>Calculated Fee:</b> ₹{calculated_amount} (Theory: {theory_count} × ₹1000, Practical: {practical_count} × ₹500)\n"
+        f"<b>Calculated Fee:</b> ₹{calculated_amount} ({fee_breakdown})\n"
         f"<b>Payment:</b> UPI (buypremiumcontent@ybl)\n"
         f"{edits_summary}\n"
         f"<i>Please verify payment screenshot below and choose an action.</i>"

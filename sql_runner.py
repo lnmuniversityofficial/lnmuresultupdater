@@ -113,10 +113,6 @@ def update_cell(db, schema, table, primary_keys, column, new_value, is_null=Fals
 # ============================================================
 BATCH_TABLE_CATALOG = {
     '23': [
-        # Sem 6 (VI) — naye tables, sabse pehle check hon taki grade card/update inhi se ho
-        {"db": "Lnmu_ResultMaster", "schema": "dbo", "table": "final_VI_2327_data"},
-        {"db": "Lnmu_ResultMaster", "schema": "dbo", "table": "final_VI_2327_data_bak"},
-        {"db": "Lnmu_ResultMaster", "schema": "dbo", "table": "LNmu_result_VI_2327"},
         {"db": "DBlnmu_25", "schema": "dbo", "table": "LNMU_RESULTCBCS"},
         {"db": "DBlnmu_25", "schema": "dbo", "table": "lnmu_resultcbcs_nc"},
         {"db": "DBlnmu_25", "schema": "dbo", "table": "LNMU_RESULTCBCS_old"},
@@ -243,38 +239,6 @@ def get_table_columns_v2(db, schema, table):
     return get_table_columns(db, schema, table)
 
 
-SEM6_DEFAULT_TARGETS = [
-    {"db": "Lnmu_ResultMaster", "schema": "dbo", "table": "final_VI_2327_data"},
-    {"db": "Lnmu_ResultMaster", "schema": "dbo", "table": "final_VI_2327_data_bak"},
-    {"db": "Lnmu_ResultMaster", "schema": "dbo", "table": "LNmu_result_VI_2327"},
-]
-
-
-def _sem6_default_targets(rollno):
-    """Sem 6 (batch 2327): koi semester verification/catalog scan nahi — hamesha ye 3 tables.
-    Bas roll ki row ka sno chahiye update ke liye."""
-    out = []
-    for item in SEM6_DEFAULT_TARGETS:
-        db, schema, table = item["db"], item["schema"], item["table"]
-        data = get_table_data(db, schema, table, search_keyword=rollno, page=1, page_size=100)
-        if not data.get("success"):
-            print(f"[SEM6] {db}.{schema}.{table}: fetch fail, skip")
-            continue
-        columns = [c.get("name") for c in data.get("columns", []) if c.get("name")]
-        row = next((r for r in (data.get("rows") or [])
-                    if str(r.get("rollno") or "").strip() == rollno), None)
-        if row is None:
-            print(f"[SEM6] {db}.{schema}.{table}: roll {rollno} ki row nahi mili, skip")
-            continue
-        sno_val = str(row.get("sno") or row.get("SNO") or row.get("id") or "").strip()
-        out.append({
-            "db": db, "schema": schema, "table": table, "sno": sno_val,
-            "columns": columns, "row": row, "target_key": f"{db}.{schema}.{table}",
-        })
-        print(f"  ✅ SEM6 Target: {db}.{schema}.{table} | sno: {sno_val}")
-    return out
-
-
 def find_matching_targets(rollno, semester, batch_year=None):
     """
     Search all category tables for given batch.
@@ -285,8 +249,6 @@ def find_matching_targets(rollno, semester, batch_year=None):
     target_sem_norm = normalize_semester(semester)
     if not batch_year:
         batch_year = rollno[:2] if len(rollno) >= 2 else "25"
-    if target_sem_norm == "6" and str(batch_year) == "23":
-        return _sem6_default_targets(rollno)
 
     candidate_tables = BATCH_TABLE_CATALOG.get(batch_year, BATCH_TABLE_CATALOG.get("25", []))
     verified_targets = []
@@ -417,35 +379,8 @@ def get_subject_codes_by_roll(db, schema, table, rollno, semester, timeout=8):
 
 
 
-def _semester_matches_table(table, target_sem_norm):
-    """Table naam se semester pattern match karta hai (jab row mein semester column na ho)."""
-    t_lower = table.lower()
-    sem_patterns = {
-        "1": ["_i_", "1sem", "sem1", "1st", "sem_1", "_1_"],
-        "2": ["_ii_", "2sem", "sem2", "2nd", "sem_2", "_2_"],
-        "3": ["_iii_", "3sem", "sem3", "3rd", "sem_3", "_3_"],
-        "4": ["_iv_", "4sem", "sem4", "4th", "sem_4", "_4_"],
-        "5": ["_v_", "5sem", "sem5", "5th", "sem_5", "_5_"],
-        "6": ["_vi_", "6sem", "sem6", "6th", "sem_6", "_6_"],
-        "7": ["_vii_", "7sem", "sem7", "7th", "sem_7", "_7_"],
-        "8": ["_viii_", "8sem", "sem8", "8th", "sem_8", "_8_"],
-    }
-    patterns = sem_patterns.get(target_sem_norm, [])
-    if any(p in t_lower for p in patterns):
-        return True
-    if f"sem{target_sem_norm}" in t_lower or f"sem_{target_sem_norm}" in t_lower or f"_{target_sem_norm}_" in t_lower:
-        return True
-    return False
-
-
 def get_student_row(db, schema, table, rollno, semester, timeout=8):
-    """
-    Student ki apni poori DB row (agar is table mein ho aur semester match kare), warna None.
-    Pehle row ke apne 'semester' column se check karo. Agar row mein woh column hi
-    nahi hai (jaise fixed-semester tables, e.g. LNMU_RESULT_VI_2529), to table ke
-    NAAM se semester pattern match karo — warna sgpa/cop/result hamesha None aayega
-    sirf isliye ki row mein semester column missing hai, jabki table khud sahi hai.
-    """
+    """Student ki apni poori DB row (agar is table mein ho aur semester match kare), warna None."""
     safe_roll = str(rollno).replace("'", "''")
     sql = f"SELECT TOP 1 * FROM {schema}.{table} WHERE rollno = '{safe_roll}'"
     try:
@@ -456,19 +391,9 @@ def get_student_row(db, schema, table, rollno, semester, timeout=8):
         if not rows:
             return None
         row = rows[0]
-        target_sem_norm = normalize_semester(semester)
         r_sem = row.get("semester") or row.get("Semester") or row.get("sem")
-        if r_sem:
-            if normalize_semester(r_sem) != target_sem_norm:
-                return None
-        else:
-            # Row mein semester column nahi — table naam se verify karo.
-            # Pattern na mile to bhi row ko reject mat karo (kai tables mein
-            # naam se pattern detect nahi hota lekin row hi sahi hoti hai);
-            # sirf tab reject karo jab pattern kisi DOOSRE semester ka match kare.
-            for other_sem in "12345678":
-                if other_sem != target_sem_norm and _semester_matches_table(table, other_sem):
-                    return None
+        if r_sem and normalize_semester(r_sem) != normalize_semester(semester):
+            return None
         return row
     except Exception as e:
         print(f"[ROW-LOOKUP ERROR] {db}.{table} {rollno}: {e}")
@@ -534,11 +459,8 @@ def preview_updates(updates, rollno=None, semester="2", batch_year=None, primary
         for u in updates:
             col = u.get("column")
             val = u.get("value")
-            real_col = {str(c).lower(): c for c in columns}.get(str(col).lower()) if col else None
-            if real_col is not None:
-                col = real_col
 
-            if real_col is None:
+            if col not in columns:
                 target_preview["will_skip"].append({
                     "column": col,
                     "value": val,
@@ -572,31 +494,6 @@ def preview_updates(updates, rollno=None, semester="2", batch_year=None, primary
     return preview
 
 
-# ============================================================
-# LOGICAL FIELD -> TABLE COLUMN RESOLVER (sgpa / result / cop)
-# Har table ke actual columns me candidate naam dhundho (case-insensitive).
-# Jis table me koi candidate na mile, wahan us field ko SKIP kiya jata hai.
-# ============================================================
-FIELD_CANDIDATES = {
-    "sgpa":   ["sgpa_{sem}", "sgpa"],
-    "result": ["res_{sem}", "resremark", "res", "rs1", "result"],
-    "cop":    ["cop_{sem}", "cop"],
-}
-
-
-def resolve_field_column(columns, field, semester):
-    """Table ke columns me se field ka actual column naam lautao, na mile to None."""
-    if field not in FIELD_CANDIDATES:
-        return None
-    lower_map = {str(c).lower(): c for c in (columns or [])}
-    sem = normalize_semester(semester)
-    for cand in FIELD_CANDIDATES[field]:
-        key = cand.format(sem=sem).lower()
-        if key in lower_map:
-            return lower_map[key]
-    return None
-
-
 def execute_batch_updates(updates, rollno=None, semester="2", batch_year=None, primary_keys=None, verified_targets=None, db=None, schema=None, table=None):
     """
     Multiple cells update karo — sirf un tables pe jisme is rollno aur is semester ka data verify hua ho
@@ -628,7 +525,6 @@ def execute_batch_updates(updates, rollno=None, semester="2", batch_year=None, p
         "targets": {},
         "success_count": 0,
         "failed": [],
-        "skipped": [],
     }
 
     if not verified_targets:
@@ -644,8 +540,6 @@ def execute_batch_updates(updates, rollno=None, semester="2", batch_year=None, p
         t_key = target["target_key"]
         columns = set(target.get("columns", []))
 
-        col_lookup = {str(c).lower(): c for c in columns}
-
         # Primary key: agar sno hai to sno use karo (100% exact row lock), warna rollno+semester
         pk = {"sno": t_sno} if t_sno else (primary_keys or {"rollno": rollno, "semester": semester})
 
@@ -655,22 +549,34 @@ def execute_batch_updates(updates, rollno=None, semester="2", batch_year=None, p
             "success_count": 0,
             "failed": [],
             "details": [],
-            "skipped": [],
         }
 
         print(f"[UPDATE] Target: {t_key} | PK: {pk}")
 
-        for u in updates:
+        # Rules: current DB value se compare; unchanged skip; credit block; fee-ready list
+        from edit_rules import load_row, plan_for_row
+        cur_row, cur_err = load_row(rollno, t_sno, t_db, t_schema, t_table)
+        plan_apply = []
+        if cur_row is None:
+            results["success"] = False
+            results["failed"].append({"column": "-", "value": "-", "error": f"current row nahi mili: {cur_err}"})
+        else:
+            plan = plan_for_row(updates, cur_row)
+            results["unchanged"] = plan["unchanged"]
+            results["blocked"] = plan["blocked"]
+            results["fee"] = plan["fee"]
+            print(f"[PLAN] {t_key}: apply={len(plan['apply'])} unchanged={len(plan['unchanged'])} "
+                  f"blocked={plan['blocked']} fee={plan['fee']}")
+            plan_apply = plan["apply"]
+
+        for u in plan_apply:
             col = u.get("column")
             val = u.get("value")
             is_null = u.get("is_null", False)
 
-            # Column naam case-insensitive match; table me nahi hai to skip
-            real_col = col_lookup.get(str(col).lower()) if col else None
-            if columns and real_col is None:
-                results["skipped"].append({"column": col, "value": val, "reason": "column_not_exists"})
+            # Agar table me ye column nahi hai, skip karo
+            if columns and col not in columns:
                 continue
-            col = real_col or col
 
             result = update_cell(t_db, t_schema, t_table, pk, col, val, is_null)
 
@@ -689,7 +595,6 @@ def execute_batch_updates(updates, rollno=None, semester="2", batch_year=None, p
             time.sleep(0.05)
 
         overall["targets"][t_key] = results
-        overall["skipped"].extend({**s, "target": t_key} for s in results["skipped"])
         if not results["success"]:
             overall["success"] = False
 

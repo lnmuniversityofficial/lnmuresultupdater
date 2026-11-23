@@ -8,12 +8,17 @@ Rules:
      Bina marks change ke credit change = BLOCK (SQL nahi, fee 0).
   3. Har cell ki old value (DB row) aur new value compare karo. Same hai to SQL nahi.
      Change hai to SQL + fee. Fee aur SQL ek hi list se, isliye kabhi alag nahi honge.
+  4. sgpa / res / result / resremark / rs1 / cop (aur sem-specific sgpa_N, res_N, cop_N) HAMESHA
+     likhe jayenge, chahe value badli ho ya na ho (sirf table mein column ho to).
+     Column naam case-insensitive match hota hai.
 """
 import re
 
 FEE = {"a1te": 1000, "a1pe": 500, "a1ts": 500, "a1ps": 500}
 MARK_BASES = set(FEE)
 CREDIT_BASES = {"a1cr", "ap1cr"}
+# Ye columns HAR request mein likhe jayenge (value badli ho ya na badli ho), agar table mein hon
+ALWAYS_BASES = {"sgpa", "res", "result", "resremark", "rs1", "cop"}
 _COL = re.compile(r"^([A-Za-z0-9]+?)_(\d+)$")
 
 
@@ -43,20 +48,24 @@ def plan_for_row(edits, row):
     Returns: apply (SQL jayega, list of dict), blocked (credit block), unchanged,
              missing (table mein column nahi), fee (int), fee_cells (fee wale cells).
     """
+    lower = {str(k).lower(): k for k in row}
     cands, unchanged, missing = [], [], []
     for e in edits or []:
-        col = str(e.get("column") or "").strip()
-        if not col:
+        raw = str(e.get("column") or "").strip()
+        if not raw:
             continue
-        if col not in row:
-            missing.append(col)
+        col = lower.get(raw.lower())          # table ka asli column naam
+        if col is None:
+            missing.append(raw)
             continue
         new = None if e.get("is_null") else e.get("value")
-        if norm(row.get(col)) == norm(new):
+        base, _ = split_col(col)
+        forced = base.lower() in {b.lower() for b in ALWAYS_BASES} or col.lower() in {b.lower() for b in ALWAYS_BASES}
+        if norm(row.get(col)) == norm(new) and not forced:
             unchanged.append(col)
             continue
         cands.append({"column": col, "value": new, "is_null": bool(e.get("is_null")),
-                      "old": row.get(col)})
+                      "old": row.get(col), "forced": forced})
 
     changed_subjects = set()
     for c in cands:

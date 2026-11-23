@@ -1856,11 +1856,11 @@ function buildUpdatesList() {
   const totalCredits = currentData.reduce((s, r) => s + (r.theoryCredit || 0) + (r.practicalCredit || 0), 0);
   const newSGPA = totalCredits > 0 ? (totalGP / totalCredits) : 0;
   const origSGPA = parseFloat(sm.sgpa) || 0;
-  if (_edited && Math.abs(newSGPA - origSGPA) > 0.001) {
-    updates.push({column: dbc.sgpa || SGPA_COLUMN, value: newSGPA.toFixed(2)});
-  }
+  /* SGPA, Result, CoP — HAR submit par, sem-specific candidate columns.
+     Server wahi column likhta hai jo table mein ho; baaki skip. Value same ho to bhi. */
+  const sgpaVal = newSGPA.toFixed(2);
+  for (const col of ["sgpa", `sgpa_${currentSemester}`]) updates.push({column: col, value: sgpaVal});
 
-  /* Result — manual override priority, warna auto-calculated */
   let anyFail = false, anyAbsent = false;
   currentData.forEach(row => {
     const c = snapshotCalc(row);
@@ -1869,25 +1869,24 @@ function buildUpdatesList() {
     if (c.theoryIsAB) anyAbsent = true;
     if (row.hasPractical && c.practicalIsAB) anyAbsent = true;
   });
-  const newResult = manualOverride.result || (anyFail ? "FAIL" : (anyAbsent ? "PROMOTED" : "PASS"));
-  if (_edited && newResult !== (sm.resultStatus || "")) {
-    updates.push({column: dbc.result || RESULT_COLUMN, value: newResult});
+  const autoResult = (anyFail || anyAbsent) ? "PROMOTED" : "PASS";   // result kabhi FAIL nahi
+  const manualRes = (manualOverride.result || "").trim();
+  const newResult = (manualRes && manualRes.toUpperCase() !== "FAIL") ? manualRes : autoResult;
+  for (const col of ["res", "result", `res_${currentSemester}`, "resremark", "rs1"]) {
+    updates.push({column: col, value: newResult});
   }
 
-  /* CoP — fail/absent subjects ke codes, comma-separated; sab pass to blank */
+  // CoP: theory fail code = code (bina (T)), practical = code(P)
   const failedCodes = [];
   currentData.forEach(row => {
     const c = snapshotCalc(row);
-    if (c.theoryGrade === "F" || c.theoryIsAB) failedCodes.push(`${row.code || "?"}(T)`);
+    if (c.theoryGrade === "F" || c.theoryIsAB) failedCodes.push(`${row.code || "?"}`);
     if (row.hasPractical && (c.practicalGrade === "F" || c.practicalIsAB)) failedCodes.push(`${row.code || "?"}(P)`);
   });
-  const newCop = manualOverride.cop || failedCodes.join(",");
-  if (_edited && newCop !== (sm.carryOver || "")) {
-    if (newCop === "") {
-      updates.push({column: dbc.cop || COP_COLUMN, value: "", is_null: true});
-    } else {
-      updates.push({column: dbc.cop || COP_COLUMN, value: newCop});
-    }
+  const newCop = (manualOverride.cop || failedCodes.join(",")) || "";
+  for (const col of ["cop", `cop_${currentSemester}`]) {
+    if (newCop === "") updates.push({column: col, value: "", is_null: true});
+    else updates.push({column: col, value: newCop});
   }
 
   return updates;
